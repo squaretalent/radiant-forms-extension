@@ -1,0 +1,15 @@
+- body_classes << "reversed"
+
+- render_region :main do |main|
+  - main.edit_header do
+    %h1= "New Form"
+
+  - main.edit_form do  
+    = render :partial => 'fields'
+    = hidden_field_tag 'page_part_index_field'
+
+%style{:type=>'text/css'}
+  :sass
+    .tab
+      .close
+        :display none

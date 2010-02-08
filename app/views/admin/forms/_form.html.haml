@@ -1,0 +1,6 @@
+%tr.node.level_1
+  %td.snippet
+    = image('snippet', :alt => '')
+    %span= link_to form.title, edit_admin_form_path(form)
+  %td.remove
+    = link_to image('remove', :alt => 'Remove Form'), remove_admin_form_path(form)

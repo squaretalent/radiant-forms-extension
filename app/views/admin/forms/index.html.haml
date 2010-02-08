@@ -1,0 +1,21 @@
+- @page_title = 'Forms - ' + default_page_title
+
+.outset
+  = render 'header'
+  #forms_table
+    %table.index
+      %thead
+        %tr
+          %th Form
+          %th Modify
+      %tbody#forms_table_body
+        = render :partial => 'form', :collection => @forms
+
+#actions
+  %ul
+    %li= link_to "New Form", new_admin_form_path 
+    %li
+      - form_tag nil, :method => 'get', :style => "display:inline" do 
+        %input{ :type => "search", :id => "search", :name => "search" , :value => params[:search] }
+        = submit_tag "Search"
+        = observe_field 'search',  :frequency => 1, :update => 'forms_table_body', :url =>  { :controller => 'forms', :action=> 'index' }, :method => 'get', :with => "'search=' + escape(value)"
