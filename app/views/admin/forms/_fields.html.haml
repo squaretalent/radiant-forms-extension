@@ -7,7 +7,7 @@
     - render_region :form do |form|
       - form.edit_title do
         %p.title
-          = form_form.label :title, 'Title' # t('title')
+          = form_form.label :title, 'Title'
           = form_form.text_field :title, :class => 'textbox activate', :maxlength => 255
         #extended_metadata{meta_visible(:meta), :style => "margin-bottom: 18px"}
           %table.fieldset
@@ -21,22 +21,20 @@
                 = form_form.label :redirect_to, 'Redirect To'
               %td.field
                 = form_form.text_field :redirect_to, :class => 'textbox', :maxlength => 100, :size => 100 
+                
       - form.edit_content do
         #tab_control
           #tabs.tabs
           #parts.pages
-            #form_content.page{'data-caption'=>'body'}
+            #form_body.page{'data-caption'=>'body'}
               #part-body.part
                 = form_form.text_area :body, :class => 'textarea large', :style => 'width: 100%'
-            #form_html.page{'data-caption'=>'html'}
-              #part-html.part
-                = form_form.text_area :html, :class => 'textarea large', :style => 'width: 100%'
-            #form_plain.page{'data-caption'=>'plain'}
-              #part-plain.part
-                = form_form.text_area :plain, :class => 'textarea large', :style => 'width: 100%'
+            #form_content.page{'data-caption'=>'content'}
+              #part-content.part
+                = form_form.text_area :content, :class => 'textarea large', :style => 'width: 100%'
             #form_config.page{'data-caption'=>'config'}
               #part-config.part
-                = form_form.text_area :config, :class => 'textarea large', :style => 'width: 100%'                
+                = form_form.text_area :config, :class => 'textarea large', :style => 'width: 100%'
       
   .form_bottom          
     - render_region :form_bottom do |form_bottom|
@@ -44,13 +42,13 @@
         %p.buttons{:style=>"clear: left"}
           = save_model_button(@form)
           = save_model_and_continue_editing_button(@form)
-          = t('or')
-          = link_to t('cancel'), admin_forms_url
+          or
+          = link_to "Cancel", admin_forms_url
       - form_bottom.edit_timestamp do
         %p.updated_line
           = updated_stamp @form
 
-%style{:type=>"text/css"}
+- content_for :page_css do
   :sass
     th.label
       :width 75px !important

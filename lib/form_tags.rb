@@ -35,9 +35,8 @@ module FormTags
     desc %{ Renders a #{type} input tag for a mailer form. The 'name' attribute is required.}
     tag "form:#{type}" do |tag|
       raise_error_if_name_missing "form:#{type}", tag.attr
-      value = (prior_value(tag) || tag.attr['value'])
+      value = tag.attr['value']
       result = [%(<input type="#{type}" value="#{value}" #{form_attrs(tag)} />)]
-      add_required(result, tag)
     end
   end
 
@@ -72,6 +71,18 @@ module FormTags
     text = parse(text)
     text = form.filter.filter(text) if form.respond_to? :filter_id
     text
+  end
+  
+  def raise_error_if_name_missing(tag_name, tag_attr)
+    raise "'#{tag_name}' tag requires a 'name' attribute" if tag_attr['name'].blank?
+  end
+  
+  # accessing data within a former object
+  
+  tag 'get' do |tag|
+    name = tag.attr['name']
+    data = tag.locals.page.form[name]
+    data.to_s
   end
   
 end

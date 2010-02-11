@@ -9,5 +9,7 @@ class CreateUserObserver < ActiveRecord::Migration
   def self.down
     remove_column :forms, :created_by
     remove_column :forms, :updated_by
+    remove_column :forms, :created_at
+    remove_column :forms, :updated_at
   end
 end

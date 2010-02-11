@@ -8,7 +8,7 @@
     = render :partial => 'fields'
     = hidden_field_tag 'page_part_index_field'
 
-%style{:type=>'text/css'}
+- content_for :page_css do
   :sass
     .tab
       .close

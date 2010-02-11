@@ -21,10 +21,14 @@ class FormExtension < Radiant::Extension
     admin.form = Radiant::AdminUI.load_default_form_regions
    
     Page.class_eval do
+      attr_accessor :form
       include FormTags
     end
     
-    admin.nav[:design] << admin.nav_item("Forms", "/admin/forms")
+    tab :Design do
+      add_item :Forms, "/admin/forms", :after => :Snippets
+    end
+    
   end
   
 end

@@ -3,7 +3,7 @@ class Former
   attr_accessor :results
   
   def initialize
-    self.result = []
+    self.results = []
   end
   
 end

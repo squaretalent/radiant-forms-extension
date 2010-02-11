@@ -2,7 +2,7 @@ class CreateForms < ActiveRecord::Migration
   def self.up
     create_table :forms do |t|
       t.string :title, :action, :redirect_to
-      t.text :body, :plain, :html, :config
+      t.text :body, :output, :config
     end
     
   end
