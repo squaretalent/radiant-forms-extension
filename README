@@ -1,3 +1,39 @@
-= Former
+= Radiant Form Extension
 
-Description goes here
+This extension allows a developer to create forms which are reusable as well as hookable.
+
+The idea was taken from the mailer extension, everything mail specific was ripped out and put in
+  http://github.com/squaretalent/radiant-mail-extension
+  
+Using forms drys up the process of creating and reusing forms across a site (well we think so at least).
+
+== Installation
+
+  git clone git://github.com/squaretalent/radiant-form-extension vendor/extensions/form
+  rake radiant:extensions:form:migrate
+  #there are no assets to update at the moment.
+
+== Usage
+  
+  A new tab will be present under design, a form has the following properties
+
+    title = reference for when you call the form tag (no spaces)
+    body = output which will be shown on a radiant page
+    content = presentation of data after form is submitted (useful when sending emails)
+    config = configuration for form-addons
+    
+  Include the form in a page using a radius tag
+    <r:form name="my-cool-form" />
+  
+== Form Addons
+
+  http://github.com/squaretalent/radiant-form_mail-extension
+  http://github.com/squaretalent/radiant-form_highrise-extension *finished, not published*
+  http://github.com/squaretalent/radiant-form_campaign-extension *finished, not published*
+
+== TODO
+  
+  Tests
+  Tag descriptions
+  Validation, using the config (which is server side :-)
+  Something else which mariovisic mentioned yesterday but I have completely forgotten about

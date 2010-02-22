@@ -1,19 +1,19 @@
-# Uncomment this if you reference any of your controllers in activate
-# require_dependency 'application_controller'
-
 class FormExtension < Radiant::Extension
   
   version "1.0"
   description "Radiant Form extension, generate easily hookable, reusabled and stylable forms"
-  url "http://squaretalent.com/radiant/extensions/form"
+  url "http://github.com/squaretalent/radiant-form-extension"
   
   define_routes do |map|
-    
     map.namespace :admin, :member => { :remove => :get }, :collection => { :refresh => :post } do |admin|
       admin.resources :forms
     end
     
     map.forms "/form/:id", :controller => "form", :action => "create"
+  end
+  
+  extension_config do |config|
+    config.gem 'will_paginate', '2.3.12'
   end
   
   def activate
