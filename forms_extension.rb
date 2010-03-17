@@ -1,4 +1,4 @@
-class FormExtension < Radiant::Extension
+class FormsExtension < Radiant::Extension
   
   version "1.0"
   description "Radiant Form extension, generate easily hookable, reusabled and stylable forms"
