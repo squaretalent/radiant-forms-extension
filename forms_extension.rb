@@ -2,7 +2,7 @@ class FormExtension < Radiant::Extension
   
   version "1.0"
   description "Radiant Form extension, generate easily hookable, reusabled and stylable forms"
-  url "http://github.com/squaretalent/radiant-form-extension"
+  url "http://github.com/squaretalent/radiant-forms-extension"
   
   define_routes do |map|
     map.namespace :admin, :member => { :remove => :get }, :collection => { :refresh => :post } do |admin|
