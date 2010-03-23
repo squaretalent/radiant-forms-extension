@@ -25,8 +25,8 @@ class FormsExtension < Radiant::Extension
       include FormTags
     end
     
-    tab :Design do
-      add_item :Forms, "/admin/forms", :after => :Snippets
+    tab 'Design' do
+      add_item 'Forms', "/admin/forms", :after => 'Snippets'
     end
     
   end
