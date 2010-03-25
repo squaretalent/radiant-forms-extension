@@ -9,18 +9,23 @@
         %p.title
           = form_form.label :title, 'Title'
           = form_form.text_field :title, :class => 'textbox activate', :maxlength => 255
-        #extended_metadata{meta_visible(:meta), :style => "margin-bottom: 18px"}
-          %table.fieldset
-            %tr
-              %th.label
-                = form_form.label :action, 'action'
-              %td.field
-                = form_form.text_field :action, :class => 'textbox', :maxlength => 100, :size => 100
-            %tr
-              %th.label
-                = form_form.label :redirect_to, 'Redirect To'
-              %td.field
-                = form_form.text_field :redirect_to, :class => 'textbox', :maxlength => 100, :size => 100 
+        
+        .drawer
+          .toggle_wrapper
+            .drawer_contents{:id => 'attributes'}
+              %table.fieldset
+                %tr
+                  %th.label
+                    = form_form.label :action, 'Action'
+                  %td.field
+                    = form_form.text_field :action, :class => 'textbox', :maxlength => 100, :size => 100
+                %tr
+                  %th.label
+                    = form_form.label :redirect_to, 'Redirect To'
+                  %td.field
+                    = form_form.text_field :redirect_to, :class => 'textbox', :maxlength => 100, :size => 100
+          .drawer_handle
+            %a{:class => 'toggle less', :href => '#attributes', :rel => 'toggle[attributes]'} Less
                 
       - form.edit_content do
         #tab_control
