@@ -9,18 +9,18 @@
         %p.title
           = form_form.label :title, 'Title'
           = form_form.text_field :title, :class => 'textbox activate', :maxlength => 255
-        #extended_metadata{meta_visible(:meta), :style => "margin-bottom: 18px"}
-          %table.fieldset
-            %tr
-              %th.label
-                = form_form.label :action, 'action'
-              %td.field
-                = form_form.text_field :action, :class => 'textbox', :maxlength => 100, :size => 100
-            %tr
-              %th.label
-                = form_form.label :redirect_to, 'Redirect To'
-              %td.field
-                = form_form.text_field :redirect_to, :class => 'textbox', :maxlength => 100, :size => 100 
+        
+        .drawer
+          .drawer_contents#attributes
+            %table.fieldset
+              %tr
+                %th.label= form_form.label :action, 'Action'
+                %td.field= form_form.text_field :action, :class => 'textbox', :maxlength => 100, :size => 100
+              %tr
+                %th.label= form_form.label :redirect_to, 'Redirect To'
+                %td.field= form_form.text_field :redirect_to, :class => 'textbox', :maxlength => 100, :size => 100
+          .drawer_handle
+            %a.toggle{:href=>'#attributes', :rel=>"toggle[attributes]", :class=>"#{(meta_errors? ? 'less' : 'more')}"}= meta_label
                 
       - form.edit_content do
         #tab_control
@@ -43,7 +43,7 @@
           = save_model_button(@form)
           = save_model_and_continue_editing_button(@form)
           or
-          = link_to "Cancel", admin_forms_url
+          = link_to t('cancel'), admin_forms_url
       - form_bottom.edit_timestamp do
         %p.updated_line
           = updated_stamp @form
