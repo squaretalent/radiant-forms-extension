@@ -9,7 +9,7 @@ module FormTags
     results = []
     if name = tag.attr['name']
       if tag.locals.form = Form.first(:first, :conditions => {:title => name.strip})
-        tag.attr['id'] ||= "form_" + tag.locals.form.title
+        tag.attr['id'] ||= tag.locals.form.title + "_form"
         tag.attr['method'] ||= "post"
         tag.attr['action'] = tag.locals.form.action.empty? ? "/form/"+tag.locals.form.id.to_s : tag.locals.form.action
         
