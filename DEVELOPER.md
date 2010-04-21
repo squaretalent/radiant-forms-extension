@@ -73,7 +73,6 @@ To do this you simply use an **alias_method_chain**
       
       def process!
         # Do whatever feels coolest
-        
         @success = true
         @message = "This could be an error or success message"
       end
@@ -83,7 +82,7 @@ To do this you simply use an **alias_method_chain**
       end
       
       def message
-        @message || false
+        @message || nil
       end
     
     end

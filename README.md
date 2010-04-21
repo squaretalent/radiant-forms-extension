@@ -82,6 +82,6 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
       </body>
     </html>
     
-== Forms Addons
-  
+## Forms Addons
+
   http://github.com/squaretalent/radiant-forms_mail-extension
