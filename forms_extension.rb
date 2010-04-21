@@ -1,3 +1,10 @@
+require_dependency "#{File.expand_path(File.dirname(__FILE__))}/lib/form_page_extensions"
+require_dependency "#{File.expand_path(File.dirname(__FILE__))}/lib/forms_admin_ui"
+require_dependency "#{File.expand_path(File.dirname(__FILE__))}/lib/form_tags"
+
+require_dependency "#{File.expand_path(File.dirname(__FILE__))}/lib/application_controller_extensions"
+require_dependency "#{File.expand_path(File.dirname(__FILE__))}/lib/site_controller_extensions"
+
 class FormsExtension < Radiant::Extension
   
   version "1.0"
@@ -19,11 +26,10 @@ class FormsExtension < Radiant::Extension
   def activate
     Radiant::AdminUI.send :include, FormsAdminUI unless defined? admin.form
     admin.form = Radiant::AdminUI.load_default_form_regions
-   
-    Page.class_eval do
-      attr_accessor :form
-      include FormTags
-    end
+    
+    Page.class_eval { include FormTags, FormPageExtensions }
+    ApplicationController.send(:include, Forms::ApplicationControllerExtensions)
+    SiteController.send(:include, Forms::SiteControllerExtensions)
     
     tab 'Design' do
       add_item 'Forms', "/admin/forms", :after => 'Snippets'

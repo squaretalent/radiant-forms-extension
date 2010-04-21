@@ -4,24 +4,29 @@ class FormController < ApplicationController
   skip_before_filter :verify_authenticity_token
   
   def create
-    @form = Former.new
     @page = Page.find(params[:page])
-    @parts = Form.find(params[:id])
+    @form = Form.find(params[:id])
+    @page.data = @data = params
+    @response = current_response
+    @response.result = {}
     
-    @page.form = @data = params[:form]
-    @data[:page] = @page
+    begin
+      @form[:config] = YAML::load("--- !map:HashWithIndifferentAccess\n"+@form[:config]).symbolize_keys
+    rescue
+      raise "Form not configured"
+    end
     
-    @parts[:config] = YAML::load("--- !map:HashWithIndifferentAccess\n"+@parts[:config]).symbolize_keys
-    
-    process_form(@form, @parts, @data)
+    process_form(@form, @data, @page, @response)
 
-    redirect_to (@parts.redirect_to.empty? ? @page.url : @parts.redirect_to)
+    @response.save
+    
+    redirect_to (@form.redirect_to.empty? ? @page.url : @form.redirect_to)
   end
   
 private
   
-  def process_form(form, parts, data)
-    #form.results << 'variable=data'
+  def process_form(form, data, page, response)
+    # { :extension => { :result => true } }
   end
   
 end
