@@ -9,9 +9,9 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
 
 ## Installation
   
-  git clone git://github.com/squaretalent/radiant-forms-extension vendor/extensions/forms
-  rake radiant:extensions:forms:migrate
-  rake radiant:extensions:forms:update
+    git clone git://github.com/squaretalent/radiant-forms-extension vendor/extensions/forms
+    rake radiant:extensions:forms:migrate
+    rake radiant:extensions:forms:update
   
 ## Usage
   
