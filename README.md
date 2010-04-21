@@ -1,4 +1,4 @@
-= Radiant Forms Extension
+# Radiant Forms Extension
 
 This extension allows a developer to create forms which can take on multiple tasks
 
@@ -7,13 +7,13 @@ The idea was taken from the mailer extension, everything mail specific was rippe
   
 Using forms 'DRY's up the process of creating and reusing forms across a site (well I think so at least).
 
-== Installation
+## Installation
 
   git clone git://github.com/squaretalent/radiant-forms-extension vendor/extensions/forms
   rake radiant:extensions:forms:migrate
   rake radiant:extensions:forms:update
 
-== Usage
+## Usage
   
   A new tab will be present under design, a form has the following properties
 
@@ -27,42 +27,42 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
   Include the form in a page using a radius tag
     <r:form name="sexy_form" />
     
-=== Body
+### Body
 
-  <ol>
-    <li>
-      <r:label for='contact[name]'>
-        <span class='title'>Your Name</span>
-        <r:text name='contact[name] />
-      </r:label>
-    </li>
-    <li>
-      <r:label for='contact[email]'>
-        <span class='title'>Your Email</span>
-        <r:text name='contact[email] />
-      </r:label>
-    </li>
-    <li>
-      <r:submit value='Send My Name' />
-    </li>
-  </ol>
+    <ol>
+      <li>
+        <r:label for='contact[name]'>
+          <span class='title'>Your Name</span>
+          <r:text name='contact[name] />
+        </r:label>
+      </li>
+      <li>
+        <r:label for='contact[email]'>
+          <span class='title'>Your Email</span>
+          <r:text name='contact[email] />
+        </r:label>
+      </li>
+      <li>
+        <r:submit value='Send My Name' />
+      </li>
+    </ol>
 
-=== Content
+### Content
 
-  <h2>Contact from <r:get name='contact[name]' /></h2>
+    <h2>Contact from <r:get name='contact[name]' /></h2>
   
-  <p>You can get back to them on <r:get name='contact[email]' /></p>
+    <p>You can get back to them on <r:get name='contact[email]' /></p>
   
-  <p>Cheers, <br /> <strong>Cool Mailer</strong></p>
+    <p>Cheers, <br /> <strong>Cool Mailer</strong></p>
   
-=== Config
+### Config
 
   *assuming you have forms_mail*
 
-  mail:
-    fields:
-      from: contact[email]
-    recipients: info@company.com
+    mail:
+      fields:
+        from: contact[email]
+      recipients: info@company.com
   
 == Forms Addons
 
