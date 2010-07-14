@@ -28,6 +28,14 @@
           #parts.pages
             #form_body.page{'data-caption'=>'body'}
               #part-body.part
+                %p
+                  %span.reference_links
+                    = t('reference')
+                    %span{:id => "filter_reference_link_body"}
+                      = link_to_function t('filter'), "loadFilterReference('body');"
+                    %span{:id => "tag_reference_link_body"}
+                      = link_to_function t('available_tags'), "loadTagReference('body');"
+                  = render_region :part_controls, :locals => {:page_part => PagePart.new({ :name => 'body' })}
                 = form_form.text_area :body, :class => 'textarea large', :style => 'width: 100%'
             #form_content.page{'data-caption'=>'content'}
               #part-content.part

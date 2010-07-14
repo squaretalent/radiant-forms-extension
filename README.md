@@ -35,13 +35,13 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
       <li>
         <r:label for='contact[name]'>
           <span class='title'>Your Name</span>
-          <r:text name='contact[name] />
+          <r:text name='contact[name]' />
         </r:label>
       </li>
       <li>
         <r:label for='contact[email]'>
           <span class='title'>Your Email</span>
-          <r:text name='contact[email] />
+          <r:text name='contact[email]' />
         </r:label>
       </li>
       <li>
@@ -62,7 +62,7 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
   *assuming you have forms_mail installed as well*
     
     mail:
-      fields:
+      field:
         from: contact[email]
       recipients: info@company.com
       

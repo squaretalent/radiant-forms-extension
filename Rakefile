@@ -1,4 +1,17 @@
-# I think this is the one that should be moved to the extension Rakefile template
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gem|
+    gem.name = "radiant-forms-extension"
+    gem.summary = %Q{Forms Extension for Radiant CMS}
+    gem.description = %Q{Describe your extension here}
+    gem.email = "dirk.kelly@squaretalent.com"
+    gem.homepage = "http://yourwebsite.com/forms"
+    gem.authors = ["dirkkelly"]
+    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+  end
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. This is only required if you plan to package forms as a gem."
+end
 
 # In rails 1.2, plugins aren't available in the path until they're loaded.
 # Check to see if the rspec plugin is installed first and require
@@ -102,17 +115,17 @@ namespace :spec do
   end
 end
 
-desc 'Generate documentation for the former extension.'
+desc 'Generate documentation for the forms extension.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'FormerExtension'
+  rdoc.title    = 'FormsExtension'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
 # For extensions that are in transition
-desc 'Test the former extension.'
+desc 'Test the forms extension.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.pattern = 'test/**/*_test.rb'
