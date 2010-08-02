@@ -3,12 +3,13 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "radiant-forms-extension"
     gem.summary = %Q{Forms Extension for Radiant CMS}
-    gem.description = %Q{Describe your extension here}
+    gem.description = %Q{Send data from a page to a form handler, extendable with addons}
     gem.email = "dirk.kelly@squaretalent.com"
-    gem.homepage = "http://yourwebsite.com/forms"
+    gem.homepage = "http://github.com/squaretalent/radiant-forms-extension"
     gem.authors = ["dirkkelly"]
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
+  Jeweler::GemcutterTasks.new
 rescue LoadError
   puts "Jeweler (or a dependency) not available. This is only required if you plan to package forms as a gem."
 end

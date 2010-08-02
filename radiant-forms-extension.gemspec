@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["dirkkelly"]
   s.date = %q{2010-08-02}
-  s.description = %q{Describe your extension here}
+  s.description = %q{Send data from a page to a form handler, extendable with addons}
   s.email = %q{dirk.kelly@squaretalent.com}
   s.extra_rdoc_files = [
     "README.md"
@@ -59,7 +59,7 @@ Gem::Specification.new do |s|
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
-  s.homepage = %q{http://yourwebsite.com/forms}
+  s.homepage = %q{http://github.com/squaretalent/radiant-forms-extension}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
