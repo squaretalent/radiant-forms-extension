@@ -83,35 +83,35 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
     
 ## Addons
 
-  ### The Market
-  
-  * [radiant-forms_mail-extension](http://github.com/squaretalent/radiant-forms_mail-extension) - 
-  A showcase of how to use extensions, allows you to send emails directly from the page
-  
-  ### Controller
+### The Market
 
-    Must be named **FormsBlahController** and contain an inherited FormsExtensionController of the same name
+* [radiant-forms_mail-extension](http://github.com/squaretalent/radiant-forms_mail-extension) - 
+A showcase of how to use extensions, allows you to send emails directly from the page
 
-      class FormsBlahController < FormsExtensionController
+### Controller
 
-        def create
-          # @form = Form which the data comes from
-          # @page = Page which submitted the form (data contains submitted information)
+  Must be named **FormsBlahController** and contain an inherited FormsExtensionController of the same name
 
-          # return = {
-          #   :hash => 'these details will be returned to the result page namespaced under blah'  
-          # }
-        end
+    class FormsBlahController < FormsExtensionController
 
+      def create
+        # @form = Form which the data comes from
+        # @page = Page which submitted the form (data contains submitted information)
+
+        # return = {
+        #   :hash => 'these details will be returned to the result page namespaced under blah'  
+        # }
       end
 
-    Any form configured with a **blah** block will know to call this controllers create method
+    end
 
-      blah:
-        key: value
-        another: value
-        
-  ### Functionality
-  
-      I'm going to let you sort that out, you have the create action with input and output
-      from here you can decide how your form addon is going to behave.
+  Any form configured with a **blah** block will know to call this controllers create method
+
+    blah:
+      key: value
+      another: value
+      
+### Functionality
+
+    I'm going to let you sort that out, you have the create action with input and output
+    from here you can decide how your form addon is going to behave.
