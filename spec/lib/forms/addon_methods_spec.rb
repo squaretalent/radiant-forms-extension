@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe Forms::ExtensionMethods do
+describe Forms::AddonMethods do
   dataset :forms, :pages
   
   before :each do

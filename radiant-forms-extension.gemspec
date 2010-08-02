@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{radiant-forms-extension}
-  s.version = "2.0.0"
+  s.version = "2.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["dirkkelly"]
@@ -43,7 +43,6 @@ Gem::Specification.new do |s|
      "forms_extension.rb",
      "lib/forms/admin_ui.rb",
      "lib/forms/application_controller_extensions.rb",
-     "lib/forms/extension_methods.rb",
      "lib/forms/page_extensions.rb",
      "lib/forms/site_controller_extensions.rb",
      "lib/forms/tags.rb",
@@ -52,7 +51,6 @@ Gem::Specification.new do |s|
      "radiant-forms-extension.gemspec",
      "spec/controllers/forms_controller_spec.rb",
      "spec/datasets/forms.rb",
-     "spec/lib/forms/extension_methods_spec.rb",
      "spec/lib/forms/tags_spec.rb",
      "spec/models/form_spec.rb",
      "spec/models/response_spec.rb",
@@ -67,7 +65,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/controllers/forms_controller_spec.rb",
      "spec/datasets/forms.rb",
-     "spec/lib/forms/extension_methods_spec.rb",
+     "spec/lib/forms/addon_methods_spec.rb",
      "spec/lib/forms/tags_spec.rb",
      "spec/models/form_spec.rb",
      "spec/models/response_spec.rb",

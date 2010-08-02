@@ -5,15 +5,13 @@ describe FormsController do
   
   context '#create' do
     
-    before :all do
-      @params = {
-        'request' => 'test'
-      }
-    end
-    
     before :each do
       @page = pages(:home)
       @form = forms(:test)
+      @params = {
+        'form_id' => @form.id,
+        'request' => 'test'
+      }
       mock(Page).find(anything) { @page }
       mock(Form).find(anything) { @form }
     end

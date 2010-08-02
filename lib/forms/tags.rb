@@ -18,7 +18,7 @@ module Forms
         if tag.locals.form = Form.find_by_title(tag.attr['name'])
           tag.attr['id'] ||= 'form_' + tag.locals.form.title
           tag.attr['method'] ||= 'post'
-          tag.attr['action'] ||= tag.locals.form.action.nil? ? "/forms/#{tag.locals.form.id}" : tag.locals.form.action      
+          tag.attr['action'] ||= tag.locals.form.action.blank? ? "/forms/#{tag.locals.form.id}" : tag.locals.form.action
           return render_form(tag.locals.form, tag)
         else
           raise TagError, "Could not find '#{tag.attr['name']}' form"

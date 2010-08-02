@@ -90,9 +90,10 @@ A showcase of how to use addons, allows you to send emails directly from the pag
 
 ### Controller
 
-  Must be named **FormsBlahController** and contain an inherited FormsExtensionController of the same name
+  Must be named **FormsBlahController** and a controller of the same name
 
-    class FormsBlahController < FormsExtensionController
+    class FormsBlahController
+      include Forms::AddonMethods # Manages your controller initialization
 
       def create
         # @form = Form which the data comes from

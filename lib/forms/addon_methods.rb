@@ -1,5 +1,5 @@
 module Forms
-  module ExtensionMethods
+  module AddonMethods
     def self.included(base)
       attr_accessor :form, :page, :data
       base.class_eval do 

@@ -1,12 +1,12 @@
 class FormsTestController
-  include Forms::ExtensionMethods
+  include Forms::AddonMethods
   def create
     result = { :response => 'test' }
   end
 end
 
 class FormsAltController
-  include Forms::ExtensionMethods
+  include Forms::AddonMethods
   def create
     result = { :response => 'alt' }
   end
