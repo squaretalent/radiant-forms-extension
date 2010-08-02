@@ -2,19 +2,15 @@ module Forms
   module SiteControllerExtensions
     def self.included(base)
       base.class_eval {
-        before_filter :initialize_response
+        before_filter :find_response
         
-        def initialize_response
+        def find_response
           if request.session[:form_response]
-            @response = Response.find(request.session[:form_response]) rescue new_response
+            @response = Response.find(request.session[:form_response])
           else
-            @response = new_response
+            @response = nil
           end
-        end
-        
-        def new_response
-          @response = Response.create
-          request.session[:form_response] = @response.id
+          
           @response
         end
       }

@@ -1,14 +1,13 @@
 module Forms
   module Tags
     include Radiant::Taggable
-    include ActionView::Helpers::DateHelper
-    include ActionView::Helpers::FormOptionsHelper
-  
+    
     class TagError < StandardError; end
   
     desc %{
       Render a form and its contents
       <pre><code><r:form name="object[key]" [method, url] /></code></pre>
+      
       * *name* the name of the form
       * *method* url submission method [ post, get, delete, put ]
       * *url* address to submit the form to
@@ -19,7 +18,7 @@ module Forms
         if tag.locals.form = Form.find_by_title(tag.attr['name'])
           tag.attr['id'] ||= 'form_' + tag.locals.form.title
           tag.attr['method'] ||= 'post'
-          tag.attr['action'] ||= tag.locals.form.action.empty? ? '/form/'+tag.locals.form.id.to_s : tag.locals.form.action      
+          tag.attr['action'] ||= tag.locals.form.action.nil? ? "/forms/#{tag.locals.form.id}" : tag.locals.form.action      
           return render_form(tag.locals.form, tag)
         else
           raise TagError, "Could not find '#{tag.attr['name']}' form"
@@ -44,7 +43,7 @@ module Forms
       
       tag.attr['for'] = tag.attr['for'].gsub('[','_').gsub(']','') unless tag.attr['for'].nil?
     
-      result = [%(<label #{form_attrs(tag)}>#{tag.expand}</label>)]
+      %(<label #{form_attrs(tag)}>#{tag.expand}</label>)
     end
 
     %w(text password reset checkbox radio hidden file button).each do |type|
@@ -65,7 +64,8 @@ module Forms
         
         value = tag.attr['value']
         tag.attr['type'] = type
-        result = [%(<input type="#{type}" value="#{value}" #{form_attrs(tag)} />)]
+        
+        %(<input type="#{type}" value="#{value}" #{form_attrs(tag)} />)
       end
     end
   
@@ -88,9 +88,7 @@ module Forms
       tag.locals.parent_tag_name = tag.attr['name']
       tag.locals.parent_tag_type = 'select'
       
-      result = [%Q(<select #{form_attrs(tag, 'size' => '1')}>)]
-      result << tag.expand
-      result << "</select>"
+      %(<select #{form_attrs(tag)}>#{tag.expand}</select>)
     end
   
     desc %{
@@ -122,40 +120,61 @@ module Forms
       * *value* the value you want to be sent if selected
     }
     tag 'form:option' do |tag|
-      if tag.locals.parent_tag_type == 'radios'
-        tag.attr['name'] = tag.locals.parent_tag_name
-      end
-      value = (tag.attr['value'] || tag.expand)
-      prev_value = prior_value(tag, tag.locals.parent_tag_name)
-      checked = tag.attr.delete('selected') || tag.attr.delete('checked')
-      selected = prev_value ? prev_value == value : checked
+      value = tag.attr['value'] || tag.expand
 
       if tag.locals.parent_tag_type == 'select'
-        %(<option value="#{value}"#{%( selected="selected") if selected} #{form_attrs(tag)}>#{tag.expand}</option>)
+        text = tag.expand.length == 0 ? value : tag.expand
+        %(<option #{form_attrs(tag, { 'value' => value})}>#{text}</option>)
       elsif tag.locals.parent_tag_type == 'radios'
-        %(<input type="radio" value="#{value}"#{%( checked="checked") if selected} #{form_attrs(tag)} />)
+        name = tag.locals.parent_tag_type == 'radios' ? tag.locals.parent_tag_name : tag.attr['name']
+        id = name.gsub('[','_').gsub(']','') + '_' + value
+        %(<input #{form_attrs(tag, { 'id' => id, 'value' => value, 'name' => name, 'type' => 'radio' })} />)
       end
     end
 
-    desc %{ Renders a submit input tag for a form. }
+    desc %{
+      Renders an @<input type="submit" />@ tag for a form.
+      
+      **Optional**
+      * *value* the text on the submit
+    }
     tag 'form:submit' do |tag|
       value = tag.attr['value'] || 'submit'
-      tag.attr.merge!("name" => "button")
-
-      result = [%(<input type="submit" value="#{value}" class="submit" #{form_attrs(tag)} />)]
+      
+      %(<input #{form_attrs(tag, { 'value' => value, 'type' => 'submit', 'class' => 'submit', 'name' => 'submit' })} />)
     end
   
-    # accessing response of processing a form
+    desc %{ 
+      Allows access to the response of a submitted form
+      @<r:form:response>...<r:get /><r:clear />...</r:form:response>@
+      
+      _Will not expand if a form has not been submitted or has been cleared_
+    }
     tag 'form:response' do |tag|
       tag.locals.form_response = find_form_response(tag)
-      
-      tag.expand unless tag.locals.form_response.result.nil?
+
+      tag.expand unless tag.locals.form_response.nil? or tag.locals.form_response.response.nil?
     end
   
+    desc %{
+      Access the attributes of a submitted form.
+      
+      @<r:form:get name=object[value]
+    }
     tag 'form:response:clear' do |tag|
       clear_form_response(tag)
+      
+      return nil
     end
 
+    desc %{ 
+      Access the attributes of a submitted form.
+      
+      @<r:form:get name="object[value]" />@ an object which was submitted with the form
+      @<r:form:get name="mail_ext[value]" />@ a response to an extension which hooked the submission
+      
+      _Refer to the readme on extensions to find out what they return_
+    }
     tag 'form:response:get' do |tag|
       raise_error_if_missing 'form:response:get', tag.attr, 'name'
       
@@ -164,18 +183,23 @@ module Forms
   
     # accessing data when processing a form
     desc %{
-      Retrieve data from a submitted form.
+      Query the data from a submitted form
+      
+      @<r:form:read name="object[value]" />@ access the object which was submitted
+      
+      _This can only be used in the content section of a form, use @<r:form:get />@ in pages_
     }
-    tag 'get' do |tag|
-      raise_error_if_missing 'get', tag.attr, 'name'
+    tag 'form:read' do |tag|
+      raise_error_if_missing 'form:read', tag.attr, 'name'
 
-      data = hash_retrieve(tag.locals.page.data, tag.attr['name']).to_s
+      data = hash_retrieve(tag.locals.page.data, tag.attr['name']).to_s      
     end
   
   protected
   
     def form_attrs(tag, extras={})
-      @id = tag.attr['name'] || "label_for_#{tag.attr['for']}"
+      @id = tag.attr['name'] || extras['name']
+      @id = @id || tag.attr['for'] + '_label' if tag.attr['for']
       @id = @id.gsub('[','_').gsub(']','') unless @id.nil?
     
       attrs = {
@@ -205,7 +229,8 @@ module Forms
 
     def render_form(form, tag)
       string =  %(<form enctype="multipart/form-data" #{form_attrs(tag)}>\n)
-      string << %(<input type="hidden" name="page" value="#{tag.locals.page.id}" />\n)
+      string << %(<input type="hidden" name="page_id" value="#{tag.locals.page.id}" />\n)
+      string << %(<input type="hidden" name="form_id" value="#{tag.locals.form.id.to_s}" />\n)
       string << "<r:form>"
       string << form.body
       string << "</r:form>"
@@ -221,8 +246,10 @@ module Forms
     def find_form_response(tag)
       if tag.locals.form_response
         tag.locals.form_response
-      else
+      elsif request.session[:form_response]
         Response.find(request.session[:form_response])
+      else
+        nil
       end
     end
   
@@ -234,11 +261,16 @@ module Forms
     # Accesses the hash as hash[object][value]
     # Accesses the value as hash[value]
     def hash_retrieve(hash, array)
-      data = array.gsub("[","|").gsub("]","").split("|") rescue nil
-    
-      result = false
-      result = hash.fetch(data[0]) unless data.nil?
-      result = result.fetch(data[1]) if !data.nil? and data[1]
+      result = nil
+      
+      unless hash.nil? or hash.empty?
+        data = array.gsub("[","|").gsub("]","").split("|") rescue nil
+      
+        result = hash.fetch(data[0]) unless data.nil?
+        result = result.fetch(data[1]) unless data.nil? or data[1].nil?
+      end
+      
+      result
     end
   
   end

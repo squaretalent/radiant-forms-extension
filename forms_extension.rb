@@ -3,12 +3,11 @@ class FormsExtension < Radiant::Extension
   description 'Radiant Form extension. Site wide, useful form management'
   url         'http://github.com/squaretalent/radiant-forms-extension'
   
-  # extension_config do |config|
-  #   config.gem 'some-awesome-gem
-  #   config.after_initialize do
-  #     run_something
-  #   end
-  # end
+  extension_config do |config|
+    if RAILS_ENV == :test
+      config.gem 'rr',        :version => '0.10.11'
+    end
+  end
   
   def activate
     Radiant::AdminUI.send(:include, Forms::AdminUI) unless defined? admin.form

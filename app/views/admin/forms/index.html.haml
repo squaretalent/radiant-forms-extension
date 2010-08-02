@@ -14,13 +14,7 @@
         -else
           %tr
             %td.empty{:colspan => 2} No Forms
-        
 
 #actions
   %ul
-    %li= link_to "New Form", new_admin_form_path 
-    %li
-      - form_tag nil, :method => 'get', :style => "display:inline" do 
-        %input{ :type => "search", :id => "search", :name => "search" , :value => params[:search] }
-        = submit_tag "Search"
-        = observe_field 'search',  :frequency => 1, :update => 'forms_table_body', :url =>  { :controller => 'forms', :action=> 'index' }, :method => 'get', :with => "'search=' + escape(value)"
+    %li= link_to "New Form", new_admin_form_path

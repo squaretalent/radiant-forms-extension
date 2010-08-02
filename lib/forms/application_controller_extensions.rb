@@ -5,7 +5,14 @@ module Forms
         helper_method :current_response
         
         def current_response
-          @response = Response.find(request.session[:form_response])
+          if request.session[:form_response]
+            @response = Response.find(request.session[:form_response])
+          else
+            @response = Response.create
+            request.session = @response.id
+          end
+          
+          @response
         end
       }
     end

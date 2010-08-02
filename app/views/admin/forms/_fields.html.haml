@@ -27,22 +27,16 @@
           #tabs.tabs
           #parts.pages
             #form_body.page{'data-caption'=>'body'}
-              #part-body.part
-                %p
-                  %span.reference_links
-                    = t('reference')
-                    %span{:id => "filter_reference_link_body"}
-                      = link_to_function t('filter'), "loadFilterReference('body');"
-                    %span{:id => "tag_reference_link_body"}
-                      = link_to_function t('available_tags'), "loadTagReference('body');"
-                  = render_region :part_controls, :locals => {:page_part => PagePart.new({ :name => 'body' })}
-                = form_form.text_area :body, :class => 'textarea large', :style => 'width: 100%'
+              = render '/admin/forms/filters'
+              = form_form.text_area :body, :class => 'textarea large', :style => 'width: 100%'
             #form_content.page{'data-caption'=>'content'}
-              #part-content.part
-                = form_form.text_area :content, :class => 'textarea large', :style => 'width: 100%'
+              = render '/admin/forms/filters'
+              = form_form.text_area :content, :class => 'textarea large', :style => 'width: 100%'
             #form_config.page{'data-caption'=>'config'}
-              #part-config.part
-                = form_form.text_area :config, :class => 'textarea large', :style => 'width: 100%'
+              %p
+                %span.reference_links
+                  Available 
+              = form_form.text_area :config, :class => 'textarea large', :style => 'width: 100%'
       
   .form_bottom          
     - render_region :form_bottom do |form_bottom|

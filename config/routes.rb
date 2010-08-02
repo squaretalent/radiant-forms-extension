@@ -4,6 +4,6 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :forms
   end
   
-  map.forms "/form/:id", :controller => "form", :action => "create"
+  map.resources :forms, :only => [ :create ]
   
 end
