@@ -86,7 +86,7 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
 ### The Market
 
 * [radiant-forms_mail-extension](http://github.com/squaretalent/radiant-forms_mail-extension) - 
-A showcase of how to use extensions, allows you to send emails directly from the page
+A showcase of how to use addons, allows you to send emails directly from the page
 
 ### Controller
 
