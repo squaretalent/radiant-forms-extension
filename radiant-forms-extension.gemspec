@@ -49,6 +49,7 @@ Gem::Specification.new do |s|
      "lib/forms/tags.rb",
      "lib/tasks/forms_extension_tasks.rake",
      "public/images/admin/extensions/form/form.png",
+     "radiant-forms-extension.gemspec",
      "spec/controllers/forms_controller_spec.rb",
      "spec/datasets/forms.rb",
      "spec/lib/forms/extension_methods_spec.rb",
