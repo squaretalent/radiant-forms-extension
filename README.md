@@ -8,14 +8,15 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
 
 ## Installation
 
-    **The New way:**
+   **The New way:**
+    
     gem install radiant-forms-extension
     # add the following line to your config/environment.rb: config.gem 'radiant-forms-extension', :lib => false
     rake radiant:extensions:forms:update
     rake radiant:extensions:forms:migrate
 
-    **The old way:**
-
+   **The old way:**
+    
     git clone git://github.com/squaretalent/radiant-forms-extension vendor/extensions/forms
     rake radiant:extensions:forms:update
     rake radiant:extensions:forms:migrate
