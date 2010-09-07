@@ -10,12 +10,19 @@ class FormsExtension < Radiant::Extension
   end
   
   def activate
-    Radiant::AdminUI.send(:include, Forms::AdminUI) unless defined? admin.form
-    admin.form = Radiant::AdminUI.load_default_form_regions
+    # View Hooks
+    unless defined? admin.form
+      Radiant::AdminUI.send :include, Forms::Interface::Core
+      
+      admin.form = Radiant::AdminUI.load_default_form_regions
+    end
     
-    Page.class_eval { include Forms::Tags, Forms::PageExtensions }
-    ApplicationController.send(:include, Forms::ApplicationControllerExtensions)
-    SiteController.send(:include, Forms::SiteControllerExtensions)
+    # Model Includes
+    Page.send :include, Forms::Tags::Core, Forms::Models::Page
+    
+    # Controller Includes
+    ApplicationController.send :include, Forms::Controllers::ApplicationController
+    SiteController.send :include, Forms::Controllers::SiteController
     
     tab 'Design' do
       add_item 'Forms', '/admin/forms', :after => 'Snippets'
