@@ -3,7 +3,7 @@ class FormMail
   
   def initialize(form, page)
     @data   = page.data
-    @config = form.config[:mail]
+    @config = form.config[:mail].symbolize_keys
     @body   = page.render_snippet(form)
   end
 
@@ -17,36 +17,64 @@ class FormMail
         :body           => body,
         :cc             => cc,
         :headers        => headers,
-        :content_type   => content_type,
-        :charset        => charset,
-        :files          => files,
-        :filesize_limit => filesize_limit
+        :content_type   => content_type
       )
       @sent = true
     rescue Exception => exception
+      raise exception if RAILS_ENV['development']
       @message = exception
       @sent = false
     end
   end
   
   def from
-    hash_retrieve(@data, @config[:field]['from']) || @config[:from]
+    from = nil
+    unless @config[:field].nil? or !@config[:field][:from].blank?
+      from = hash_retrieve(@data, @config[:field][:from])
+    else
+      from = @config[:from]
+    end
+    from
   end
   
   def recipients
-    hash_retrieve(@data, @config[:field]['recipients']) || @config[:recipients]
+    to = nil
+    unless @config[:field].nil? or !@config[:field][:to].blank?
+      to = hash_retrieve(@data, @config[:field][:to])
+    else
+      to = @config[:to]
+    end
+    to
   end
   
   def reply_to
-    hash_retrieve(@data, @config[:field]['reply_to']) || from
+    reply_to = nil
+    unless @config[:field].nil? or !@config[:field][:reply_to].blank?
+      reply_to = hash_retrieve(@data, @config[:field][:reply_to])
+    else
+      reply_to = @config[:reply_to]
+    end
+    reply_to
   end
   
   def sender
-    hash_retrieve(@data, @config[:field]['sender']) || @config[:sender]
+    sender = nil
+    unless @config[:field].nil? or !@config[:field][:sender].blank?
+      sender = hash_retrieve(@data, @config[:field][:sender])
+    else
+      sender = @config[:sender]
+    end
+    sender
   end
   
   def subject
-    hash_retrieve(@data, @config[:field]['subject']) || @config[:subject]
+    subject = nil
+    unless @config[:field].nil? or !@config[:field][:subject].blank?
+      subject = hash_retrieve(@data, @config[:field][:subject])
+    else
+      subject = @config[:subject]
+    end
+    subject
   end
   
   def body
@@ -65,32 +93,17 @@ class FormMail
     @message || nil
   end
   
-  def files
-    res = []
-    data.each_value do |d|
-      res << d if StringIO === d or Tempfile === d
-    end
-    res
-  end
-  
-  def filesize_limit
-    config[:filesize_limit] || nil
-  end
-  
   def headers
     headers = { 'Reply-To' => reply_to }
     if sender
       headers['Return-Path'] = sender
       headers['Sender'] = sender
     end
+    headers
   end
   
   def content_type
     content_type = config[:content_type] || 'multipart/mixed'
-  end
-  
-  def charset
-    charset = config[:charset] || 'utf-8'
   end
   
 protected

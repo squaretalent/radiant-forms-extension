@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["dirkkelly"]
-  s.date = %q{2010-08-02}
+  s.date = %q{2010-09-07}
   s.description = %q{Send data from a page to a form handler, extendable with addons}
   s.email = %q{dirk.kelly@squaretalent.com}
   s.extra_rdoc_files = [
@@ -22,7 +22,10 @@ Gem::Specification.new do |s|
      "VERSION",
      "app/controllers/admin/forms_controller.rb",
      "app/controllers/forms_controller.rb",
+     "app/controllers/forms_mail_controller.rb",
      "app/models/form.rb",
+     "app/models/form_mail.rb",
+     "app/models/form_mailer.rb",
      "app/models/form_page.rb",
      "app/models/response.rb",
      "app/views/admin/forms/_fields.html.haml",
@@ -42,11 +45,11 @@ Gem::Specification.new do |s|
      "db/migrate/004_create_responses.rb",
      "forms_extension.rb",
      "lib/forms/addon_methods.rb",
-     "lib/forms/admin_ui.rb",
-     "lib/forms/application_controller_extensions.rb",
-     "lib/forms/page_extensions.rb",
-     "lib/forms/site_controller_extensions.rb",
-     "lib/forms/tags.rb",
+     "lib/forms/controllers/application_controller.rb",
+     "lib/forms/controllers/site_controller.rb",
+     "lib/forms/interface/core.rb",
+     "lib/forms/models/page.rb",
+     "lib/forms/tags/core.rb",
      "lib/tasks/forms_extension_tasks.rake",
      "public/images/admin/extensions/form/form.png",
      "radiant-forms-extension.gemspec",
@@ -62,7 +65,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/squaretalent/radiant-forms-extension}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{Forms Extension for Radiant CMS}
   s.test_files = [
     "spec/controllers/forms_controller_spec.rb",
@@ -78,7 +81,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
     else
     end
   else

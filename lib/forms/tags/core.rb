@@ -193,7 +193,11 @@ module Forms
       tag 'form:read' do |tag|
         raise_error_if_missing 'form:read', tag.attr, 'name'
 
-        data = hash_retrieve(tag.locals.page.data, tag.attr['name']).to_s      
+        begin
+          data = hash_retrieve(tag.locals.page.data, tag.attr['name']).to_s
+        rescue
+          raise tag.attr['name']
+        end
       end
   
     protected

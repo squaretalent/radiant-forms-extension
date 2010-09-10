@@ -109,9 +109,9 @@ Define your mailing variables
 _hardcoded_
 
     mail:
-      recipients: email@email.com
       from: email@email.com
-      sender: email@email.com
+      to: email@email.com
+      reply_to: email@email.com      
       subject: subject text
       
 _variable_
@@ -119,10 +119,9 @@ _variable_
     mail:
       field:
         from: person[email]
-        recipients: person[email]
-        reply_to: person[email]
-        sender: person[email]
+        to: person[email]
         subject: contact[subject]
+        reply_to: person[email]
 
 #### SMTP
 
