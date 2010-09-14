@@ -7,7 +7,8 @@ class FormMailer < ActionMailer::Base
     bcc           options[:bcc]
     subject       options[:subject]
     headers       options[:headers]
-    part          :content_type => options[:content_type], :body => options[:body]
+    charset       options[:charset]
+    part          :content_type => options[:content_type], :body => options[:body], :charset => options[:charset]
   end
   
 end

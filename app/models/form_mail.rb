@@ -17,7 +17,8 @@ class FormMail
         :body           => body,
         :cc             => cc,
         :headers        => headers,
-        :content_type   => content_type
+        :content_type   => content_type,
+        :charset        => charset
       )
       @sent = true
     rescue Exception => exception
@@ -104,6 +105,11 @@ class FormMail
   
   def content_type
     content_type = config[:content_type] || 'multipart/mixed'
+  end
+  
+  def charset
+    charset = config[:charset] || 'utf-8'
+    charset = charset == '' ? nil : charset
   end
   
 protected
