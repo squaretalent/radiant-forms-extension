@@ -1,13 +1,9 @@
 class FormMail
-  attr_reader :config, :data
+  include Forms::Models::Extension
   
-  def initialize(form, page)
-    @data   = page.data
-    @config = form.config[:mail].symbolize_keys
-    @body   = page.render_snippet(form)
-  end
-
   def create
+    @body   = @page.render_snippet(@form)
+    
     begin
       FormMailer.deliver_mail(
         :recipients     => recipients,
@@ -26,6 +22,13 @@ class FormMail
       @message = exception
       @sent = false
     end
+    
+    @result = {
+      :sent     => self.sent?,
+      :message  => self.message,
+      :subject  => self.subject,
+      :from     => self.from
+    }
   end
   
   def from
