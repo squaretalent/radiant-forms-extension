@@ -107,11 +107,11 @@ class FormMail
   end
   
   def content_type
-    content_type = config[:content_type] || 'multipart/mixed'
+    content_type = @config[:content_type] || 'text/html'
   end
   
   def charset
-    charset = config[:charset] || 'utf-8'
+    charset = @config[:charset] || 'utf-8'
     charset = charset == '' ? nil : charset
   end
   
