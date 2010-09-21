@@ -2,8 +2,6 @@
 
 This extension allows a developer to create forms which can take on multiple tasks
 
-The idea was taken from the mailer extension, everything mail specific is used in [radiant-forms_mail-extension](http://github.com/squaretalent/radiant-forms_mail-extension)
-  
 Using forms 'DRY's up the process of creating and reusing forms across a site (well I think so at least).
 
 ## Installation
@@ -147,8 +145,6 @@ but if you're using SMTP create the following to **/config/initializers/form_mai
 A showcase of how to use addons, allows you to send emails directly from the page
 
 ### Model
-
-  Must be named **FormBlahController**
 
     class FormBlah
       include Forms::Models::Extension # Sorts out initialization giving you
