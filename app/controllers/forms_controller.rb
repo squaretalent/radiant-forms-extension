@@ -7,9 +7,13 @@ class FormsController < ApplicationController
   # POST /forms/1
   #----------------------------------------------------------------------------
   def create
-    @page = Page.find(params[:page_id])
     @form = Form.find(params[:form_id])
-    @page.data = params    
+    
+    @page = Page.find(params[:page_id])
+    @page.data = params
+    @page.request = {
+      :session => session
+    }
     
     response = current_response
     response.result = params
@@ -21,8 +25,8 @@ class FormsController < ApplicationController
     end
     
     @form[:config].each do |ext, config|
-      ext_controller  = ("Forms#{ext.to_s.capitalize}Controller".constantize).new(@form, @page)
-      response.result = response.result.merge({ "#{ext}_ext" => ext_controller.create })
+      extension = ("Form#{ext.to_s.capitalize}".constantize).new(@form, @page)
+      response.result = response.result.merge({ "#{ext}_ext" => extension.create })
     end
     
     if response.save  

@@ -91,24 +91,76 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
       </body>
     </html>
     
+### Email
+
+Delete the following line in config/environment.rb
+
+    config.frameworks -= [ :action_mailer ]
+    
+or just remove the :action_mailer references
+
+    config.frameworks -= []
+
+
+#### Config
+
+Define your mailing variables 
+
+_hardcoded_
+
+    mail:
+      from: email@email.com
+      to: email@email.com
+      reply_to: email@email.com      
+      subject: subject text
+      
+_variable_
+      
+    mail:
+      field:
+        from: person[email]
+        to: person[email]
+        subject: contact[subject]
+        reply_to: person[email]
+
+#### SMTP
+
+Of course you are probably using sendgrid to make sending emails easy, 
+but if you're using SMTP create the following to **/config/initializers/form_mail.rb**
+
+    ActionMailer::Base.delivery_method = :smtp
+    ActionMailer::Base.raise_delivery_errors = true
+    ActionMailer::Base.smtp_settings = {
+      :enable_starttls_auto =>  true,
+      :address              =>  "smtp.gmail.com",
+      :port                 =>  "587",
+      :domain               =>  "smtp.gmail.com",
+      :authentication       =>  :plain,
+      :user_name            =>  "username@gmail.com",
+      :password             =>  "password"
+    }
+
 ## Addons
 
 ### The Market
 
-* [radiant-forms_mail-extension](http://github.com/squaretalent/radiant-forms_mail-extension) - 
 A showcase of how to use addons, allows you to send emails directly from the page
 
-### Controller
+### Model
 
-  Must be named **FormsBlahController** and a controller of the same name
+  Must be named **FormBlahController**
 
-    class FormsBlahController
-      include Forms::AddonMethods # Manages your controller initialization
+    class FormBlah
+      include Forms::Models::Extension # Sorts out initialization giving you
+      
+      # def initialize(form, page)
+      # @form = form
+      # @page = page
+      # 
+      # @data   = @page.data
+      # @config = @form.config[self.class.to_s.downcase.gsub('form', '').to_sym].symbolize_keys # @form.config[:blah]
 
       def create
-        # @form = Form which the data comes from
-        # @page = Page which submitted the form (data contains submitted information)
-
         # return = {
         #   :hash => 'these details will be returned to the result page namespaced under blah'  
         # }
