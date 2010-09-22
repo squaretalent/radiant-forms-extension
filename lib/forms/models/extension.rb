@@ -8,7 +8,9 @@ module Forms
             @page   = page
             
             @data   = @page.data
-            @config = @form.config[self.class.to_s.downcase.gsub('form', '').to_sym].symbolize_keys
+            
+            # Sets the config to be the current environment config: checkout:
+            @config = @form[:config][self.class.to_s.downcase.gsub('form', '').to_sym]
           end
         end
       end

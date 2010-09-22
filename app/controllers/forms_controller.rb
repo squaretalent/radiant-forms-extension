@@ -10,7 +10,7 @@ class FormsController < ApplicationController
     @form = Form.find(params[:form_id])
     
     @page = Page.find(params[:page_id])
-    @page.data = params
+    @page.data = params 
     @page.request = {
       :session => session
     }
@@ -19,8 +19,9 @@ class FormsController < ApplicationController
     response.result = params
     
     begin
-      @form[:config] = YAML::load("--- !map:HashWithIndifferentAccess\n"+@form[:config]).symbolize_keys
-    rescue
+      @form[:config] = Forms::Config.convert(@form.config)
+    rescue Exception => e
+      raise e
       raise "Form '#{@form.title}' has not been configured"
     end
     
