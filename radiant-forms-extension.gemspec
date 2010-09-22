@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{radiant-forms-extension}
-  s.version = "3.0.0.rc2"
+  s.version = "3.1.0"
 
-  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["dirkkelly"]
-  s.date = %q{2010-09-21}
+  s.date = %q{2010-09-22}
   s.description = %q{Send data from a page to a form handler, extendable with addons}
   s.email = %q{dirk.kelly@squaretalent.com}
   s.extra_rdoc_files = [
@@ -43,6 +43,7 @@ Gem::Specification.new do |s|
      "db/migrate/003_rename_output_to_content.rb",
      "db/migrate/004_create_responses.rb",
      "forms_extension.rb",
+     "lib/forms/config.rb",
      "lib/forms/controllers/application_controller.rb",
      "lib/forms/controllers/site_controller.rb",
      "lib/forms/interface/core.rb",
