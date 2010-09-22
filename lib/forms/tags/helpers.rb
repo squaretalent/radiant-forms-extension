@@ -30,7 +30,7 @@ module Forms
             'value'         => nil,
             'maxlength'     => nil
           }.merge(extras)
-
+          
           result = attrs.collect do |k,v|
             v = (tag.attr[k] || v)
             next if v.blank?
@@ -38,18 +38,6 @@ module Forms
           end.reject{|e| e.blank?}
 
           result.join(' ')
-        end
-        
-        def response(tag)
-          response = nil
-          
-          if tag.locals.response.present?
-            response = tag.locals.response
-          elsif request.session[:form_response]
-            response = Response.find(request.session[:form_response]).result
-          end
-          
-          response
         end
         
         def require!(tag,name,key)

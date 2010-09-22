@@ -148,30 +148,6 @@ module Forms
         %(<input #{Forms::Tags::Helpers.attributes(tag, extra)} />)
       end
       
-      desc %{ 
-        Allows access to the response of a submitted form
-        @<r:form:response>...<r:get /><r:clear />...</r:form:response>@
-        
-        _Will not expand if a form has not been submitted or has been cleared_
-      }
-      tag 'form:response' do |tag|
-        tag.locals.response = Forms::Tags::Helpers.response(tag)
-        
-        tag.expand if tag.locals.form_response.present?
-      end
-      
-      desc %{ 
-        Access the attributes of a submitted form.
-        
-        @<r:form:response:get name="object[value]" />@ an object which was submitted with the form
-        @<r:form:response:get name="result[mail][value]" />@ a response to the mail extension hooking the form
-        
-        _Refer to the readme on extensions to find out what they return_
-      }
-      tag 'form:response:get' do |tag|
-        results = Form::Tags::Response.retrieve(tag.locals.response, tag.attr['name'])
-      end
-      
       desc %{
         Query the data from a submitted form
         
@@ -180,17 +156,45 @@ module Forms
         _This can only be used in the content section of a form, use @<r:form:get />@ in pages_
       }
       tag 'form:read' do |tag|
-        Form::Tags::Helpers.require!(tag, 'name')
+        Forms::Tags::Helpers.require!(tag,'form:read','name')
         data = Form::Tags::Response.retrieve(tag.locals.page.data, tag.attr['name'])
       end
       
       desc %{
         Clears the response object
         
-        @<r:form:response:clear />@
+        @<r:response:clear />@
       }
-      tag 'form:response:clear' do |tag|
-        clear_form_response(tag)
+      tag 'response:clear' do |tag|
+        Forms::Tags::Responses.clear(tag)
+        
+        nil
+      end
+      
+      desc %{ 
+        Allows access to the response of a submitted form
+        @<r:response>...<r:get /><r:clear />...</r:response>@
+        
+        _Will not expand if a form has not been submitted or has been cleared_
+      }
+      tag 'response' do |tag|
+        tag.locals.response = Forms::Tags::Responses.current(tag,request)
+
+        tag.expand if tag.locals.response.present? and tag.locals.response.result.present?
+      end
+      
+      desc %{ 
+        Access the attributes of a submitted form.
+        
+        @<r:response:get name="object[value]" />@ an object which was submitted with the form
+        @<r:response:get name="result[mail][value]" />@ a response to the mail extension hooking the form
+        
+        _Refer to the readme on extensions to find out what they return_
+      }
+      tag 'response:get' do |tag|
+        Forms::Tags::Helpers.require!(tag,'response:get','name')
+        
+        result = Forms::Tags::Responses.retrieve(tag.locals.response.result, tag.attr['name']).to_s
       end
     end
   end
