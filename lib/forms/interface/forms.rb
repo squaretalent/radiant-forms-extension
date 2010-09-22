@@ -1,6 +1,6 @@
 module Forms
   module Interface
-    module Core
+    module Forms
 
      def self.included(base)
        base.class_eval do

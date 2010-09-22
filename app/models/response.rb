@@ -1,7 +1,12 @@
 class Response < ActiveRecord::Base
   
   def result
-    ActiveSupport::JSON.decode(self.result_json) unless self.result_json.nil?
+    result = {}
+    if self.result_json.present?
+      result = ActiveSupport::JSON.decode(self.result_json) 
+      result = Forms::Config.deep_symbolize_keys(result)
+    end
+    result
   end
   
   def result=(result)

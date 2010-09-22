@@ -4,7 +4,7 @@ module Forms
     class << self
       def convert(yaml)
         hash = hashify(yaml)
-        hash = symbolize(hash)
+        hash = deep_symbolize_keys(hash)
         
         hash
       end
@@ -13,11 +13,11 @@ module Forms
         YAML::load("--- !map:HashWithIndifferentAccess\n"+yaml)
       end
       
-      def symbolize(item)
+      def deep_symbolize_keys(item)
         case item
         when Hash
           item.inject({}) do |acc, (k, v)|
-            acc[(k.to_sym rescue k)] = symbolize v
+            acc[(k.to_sym rescue k)] = deep_symbolize_keys(v)
             acc
           end
         when Array
@@ -25,8 +25,6 @@ module Forms
         else
           item
         end
-        
-        item
       end
     end
     

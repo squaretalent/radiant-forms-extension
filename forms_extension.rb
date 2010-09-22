@@ -4,15 +4,12 @@ class FormsExtension < Radiant::Extension
   url         'http://github.com/squaretalent/radiant-forms-extension'
   
   extension_config do |config|
-    if RAILS_ENV == :test
-      config.gem 'rr',        :version => '0.10.11'
-    end
   end
   
   def activate
     # View Hooks
     unless defined? admin.form
-      Radiant::AdminUI.send :include, Forms::Interface::Core
+      Radiant::AdminUI.send :include, Forms::Interface::Forms
       
       admin.form = Radiant::AdminUI.load_default_form_regions
     end

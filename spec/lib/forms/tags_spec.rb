@@ -109,14 +109,4 @@ describe Forms::Tags do
     
   end
   
-  context 'form hooking' do
-    
-    
-  end
-  
-  context 'form response' do
-    
-  end
-  
-  
 end

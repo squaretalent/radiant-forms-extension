@@ -10,7 +10,7 @@ describe FormsController do
       @form = forms(:test)
       @params = {
         'form_id' => @form.id,
-        'request' => 'test'
+        'data'    => 'test'
       }
       mock(Page).find(anything) { @page }
       mock(Form).find(anything) { @form }
@@ -31,7 +31,7 @@ describe FormsController do
       end
   
       it 'should put the params into the page data' do
-        assigns(:page).data['request'].should == @params['request']
+        assigns(:page).data[:request].should == @params['request']
       end
   
       it 'should find/create a response object' do
@@ -39,7 +39,7 @@ describe FormsController do
       end
   
       it 'should add the params to the response result' do
-        assigns(:response).result['request'].should == @params['request']
+        assigns(:response).result[:request].should == @params['request']
       end
       
     end
@@ -53,7 +53,7 @@ describe FormsController do
       context 'configuration exists' do
         
         it 'should assign the configuration settings' do
-          assigns(:form)[:config][:test]['config'].should == 'test'
+          assigns(:form)[:config][:test][:config].should == 'test'
         end
         
       end
@@ -81,11 +81,11 @@ describe FormsController do
       context 'extension configured' do
       
         it 'should call that test extension' do
-          assigns(:response).result['test_ext'].should == { 'response' => 'test' }
+          assigns(:response).result[:results][:test].should == { :response => 'test' }
         end
         
         it 'should not call the alt extension' do
-          assigns(:response).result['test_alt'].should be_nil
+          assigns(:response).result[:results][:alt].should be_nil
         end
       
       end
