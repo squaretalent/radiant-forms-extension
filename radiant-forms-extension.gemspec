@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["dirkkelly"]
-  s.date = %q{2010-09-22}
+  s.date = %q{2010-09-23}
   s.description = %q{Send data from a page to a form handler, extendable with addons}
   s.email = %q{dirk.kelly@squaretalent.com}
   s.extra_rdoc_files = [
@@ -46,10 +46,12 @@ Gem::Specification.new do |s|
      "lib/forms/config.rb",
      "lib/forms/controllers/application_controller.rb",
      "lib/forms/controllers/site_controller.rb",
-     "lib/forms/interface/core.rb",
+     "lib/forms/interface/forms.rb",
      "lib/forms/models/extension.rb",
      "lib/forms/models/page.rb",
      "lib/forms/tags/core.rb",
+     "lib/forms/tags/helpers.rb",
+     "lib/forms/tags/responses.rb",
      "lib/tasks/forms_extension_tasks.rake",
      "public/images/admin/extensions/form/form.png",
      "radiant-forms-extension.gemspec",
