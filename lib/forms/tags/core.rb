@@ -157,7 +157,7 @@ module Forms
       }
       tag 'form:read' do |tag|
         Forms::Tags::Helpers.require!(tag,'form:read','name')
-        data = Form::Tags::Response.retrieve(tag.locals.page.data, tag.attr['name'])
+        data = Forms::Tags::Responses.retrieve(tag.locals.page.data, tag.attr['name'])
       end
       
       desc %{

@@ -9,8 +9,16 @@ module Forms
           
           if tag.locals.response.present?
             response = tag.locals.response
-          elsif request.session[:form_response]
-            response = Response.find(request.session[:form_response])
+          elsif tag.locals.page.request.present?
+            session = tag.locals.page.request.session[:form_response] rescue tag.locals.page.request[:session][:form_response]
+            begin
+              response  = Response.find(session)
+            rescue
+              if session == Object
+                response  = Response.create
+                tag.locals.page.request.session[:form_response] = result.id
+              end
+            end
           end
           
           response
