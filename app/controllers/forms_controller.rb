@@ -10,10 +10,10 @@ class FormsController < ApplicationController
     @form = Form.find(params[:form_id])
     
     @page = Page.find(params[:page_id])
-    @page.data = params 
-    @page.request = {
-      :session => session
-    }
+    @page.data    = params 
+    @page.request = OpenStruct.new({
+      :session => session # Creating a pretend response object
+    })
     
     # We need a response object
     @response = find_or_create_response
@@ -22,14 +22,14 @@ class FormsController < ApplicationController
     
     begin
       # Grab the form configuration data
-      @form[:config] = Forms::Config.convert(@form.config)
+      @form[:extensions] = Forms::Config.convert(@form.config)
     rescue
       raise "Form '#{@form.title}' has not been configured"
     end
     
     @results =  {}
     # Iterate through each configured extension
-    @form[:config].each do |ext, config|
+    @form[:extensions].each do |ext, config|
       # New Instance of the FormExtension class
       extension = ("Form#{ext.to_s.capitalize}".constantize).new(@form, @page)
       
@@ -41,9 +41,9 @@ class FormsController < ApplicationController
     
     begin
       @response.save!
-      redirect_to (@form.redirect_to.nil? ? @page.url : @form.redirect_to)
+      redirect_to @form.redirect_to.present? ? @form.redirect_to : @page.url
     rescue
-      "Form '#{@form.name}' could not be submitted."
+      "Form '#{@form.title}' could not be submitted."
     end
   end
   

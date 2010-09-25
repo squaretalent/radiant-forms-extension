@@ -7,10 +7,10 @@ module Forms
             @form   = form
             @page   = page
             
-            @data   = @page.data
+            @data   = Forms::Config.deep_symbolize_keys(@page.data)
             
             # Sets the config to be the current environment config: checkout:
-            @config = @form[:config][self.class.to_s.downcase.gsub('form', '').to_sym]
+            @config = @form[:extensions][self.class.to_s.downcase.gsub('form', '').to_sym]
           end
         end
       end

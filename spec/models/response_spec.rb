@@ -4,13 +4,13 @@ describe Response do
   
   before :each do
     @response = Response.new
-    @object   = { 'test' => 'test' }
+    @object   = { :test => 'test' }
   end
   
   context 'setting' do
     
     it 'should store an object' do
-      @response.result.should be_nil
+      @response.result.should == {}
       @response.result = @object
       @response.result.should_not be_nil
     end

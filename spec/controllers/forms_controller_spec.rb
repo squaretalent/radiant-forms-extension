@@ -53,7 +53,7 @@ describe FormsController do
       context 'configuration exists' do
         
         it 'should assign the configuration settings' do
-          assigns(:form)[:config][:test][:config].should == 'test'
+          assigns(:form)[:extensions][:test][:config].should == 'test'
         end
         
       end

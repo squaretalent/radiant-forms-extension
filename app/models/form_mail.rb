@@ -34,7 +34,7 @@ class FormMail
   def from
     from = nil
     unless @config[:field].nil? or !@config[:field][:from].blank?
-      from = hash_retrieve(@data, @config[:field][:from])
+      from = Forms::Tags::Responses.retrieve(@data, @config[:field][:from])
     else
       from = @config[:from]
     end
@@ -44,7 +44,7 @@ class FormMail
   def recipients
     to = nil
     unless @config[:field].nil? or !@config[:field][:to].blank?
-      to = hash_retrieve(@data, @config[:field][:to])
+      to = Forms::Tags::Responses.retrieve(@data, @config[:field][:to])
     else
       to = @config[:to]
     end
@@ -54,7 +54,7 @@ class FormMail
   def reply_to
     reply_to = nil
     unless @config[:field].nil? or !@config[:field][:reply_to].blank?
-      reply_to = hash_retrieve(@data, @config[:field][:reply_to])
+      reply_to = Forms::Tags::Responses.retrieve(@data, @config[:field][:reply_to])
     else
       reply_to = @config[:reply_to]
     end
@@ -64,7 +64,7 @@ class FormMail
   def sender
     sender = nil
     unless @config[:field].nil? or !@config[:field][:sender].blank?
-      sender = hash_retrieve(@data, @config[:field][:sender])
+      sender = Forms::Tags::Responses.retrieve(@data, @config[:field][:sender])
     else
       sender = @config[:sender]
     end
@@ -74,7 +74,7 @@ class FormMail
   def subject
     subject = nil
     unless @config[:field].nil? or !@config[:field][:subject].blank?
-      subject = hash_retrieve(@data, @config[:field][:subject])
+      subject = Forms::Tags::Responses.retrieve(@data, @config[:field][:subject])
     else
       subject = @config[:subject]
     end
@@ -113,17 +113,6 @@ class FormMail
   def charset
     charset = @config[:charset] || 'utf-8'
     charset = charset == '' ? nil : charset
-  end
-  
-protected
-  
-  # takes object[value] || value and accesses the hash as hash[object][value] || hash[value]
-  def hash_retrieve(hash, array)
-    data = array.gsub('[','|').gsub(']','').split('|') rescue nil
-    
-    result = false
-    result = hash.fetch(data[0]) unless data.nil?
-    result = result.fetch(data[1]) if !data.nil? and data[1]
   end
   
 end
