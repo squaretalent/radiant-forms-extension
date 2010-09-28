@@ -179,7 +179,7 @@ module Forms
       }
       tag 'response' do |tag|
         tag.locals.response = Forms::Tags::Responses.current(tag,request)
-
+        
         tag.expand if tag.locals.response.present? and tag.locals.response.result.present?
       end
       

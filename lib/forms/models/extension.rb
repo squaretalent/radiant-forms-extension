@@ -12,6 +12,12 @@ module Forms
             # Sets the config to be the current environment config: checkout:
             @config = @form[:extensions][self.class.to_s.downcase.gsub('form', '').to_sym]
           end
+          
+          def current_user
+            return @current_user if @current_user.present? 
+            @current_user = UserActionObserver.current_user
+          end
+          
         end
       end
     end
