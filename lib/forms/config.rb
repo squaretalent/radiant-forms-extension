@@ -20,8 +20,6 @@ module Forms
             acc[(k.to_sym rescue k)] = deep_symbolize_keys(v)
             acc
           end
-        when Array
-          item.map { |i| symbolize i }
         else
           item
         end
