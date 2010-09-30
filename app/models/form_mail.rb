@@ -32,52 +32,32 @@ class FormMail
   end
   
   def from
-    from = nil
-    unless @config[:field].nil? or !@config[:field][:from].blank?
-      from = Forms::Tags::Responses.retrieve(@data, @config[:field][:from])
-    else
-      from = @config[:from]
-    end
+    from = @config[:from] || "not-set@no.valid.domain.com"
+    from = Forms::Tags::Responses.retrieve(@data, @config[:field][:from])  if @config[:field] && !@config[:field][:from].blank?
     from
   end
   
   def recipients
-    to = nil
-    unless @config[:field].nil? or !@config[:field][:to].blank?
-      to = Forms::Tags::Responses.retrieve(@data, @config[:field][:to])
-    else
-      to = @config[:to]
-    end
+    to = @config[:to] || "not-set@no.valid.domain.com"
+    to = Forms::Tags::Responses.retrieve(@data, @config[:field][:to]) if @config[:field] && !@config[:field][:to].blank?
     to
   end
   
   def reply_to
-    reply_to = nil
-    unless @config[:field].nil? or !@config[:field][:reply_to].blank?
-      reply_to = Forms::Tags::Responses.retrieve(@data, @config[:field][:reply_to])
-    else
-      reply_to = @config[:reply_to]
-    end
+    reply_to = @config[:reply_to]
+    reply_to = Forms::Tags::Responses.retrieve(@data, @config[:field][:reply_to]) if @config[:field] && !@config[:field][:reply_to].blank?
     reply_to
   end
   
   def sender
-    sender = nil
-    unless @config[:field].nil? or !@config[:field][:sender].blank?
-      sender = Forms::Tags::Responses.retrieve(@data, @config[:field][:sender])
-    else
-      sender = @config[:sender]
-    end
+    sender = @config[:sender] || "not-set@no.valid.domain.com"
+    sender = Forms::Tags::Responses.retrieve(@data, @config[:field][:sender]) if @config[:field] && !@config[:field][:sender].blank?
     sender
   end
   
   def subject
-    subject = nil
-    unless @config[:field].nil? or !@config[:field][:subject].blank?
-      subject = Forms::Tags::Responses.retrieve(@data, @config[:field][:subject])
-    else
-      subject = @config[:subject]
-    end
+    subject =  @config[:subject] || "not set"
+    subject = Forms::Tags::Responses.retrieve(@data, @config[:field][:subject]) if @config[:field] && !@config[:field][:subject].blank?
     subject
   end
   
