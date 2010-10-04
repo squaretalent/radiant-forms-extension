@@ -3,13 +3,11 @@ class FormsController < ApplicationController
   no_login_required
   
   skip_before_filter :verify_authenticity_token
-  
-  # POST /forms/1
-  #----------------------------------------------------------------------------
-  def create
-    @form = Form.find(params[:form_id])
+
+  def update
+    @form = Form.find(params[:id])
     
-    @page = Page.find(params[:page_id])
+    @page = Page.find(params[:page_id]) rescue Page.first
     @page.data    = params 
     @page.request = OpenStruct.new({
       :session => session # Creating a pretend response object
@@ -31,10 +29,11 @@ class FormsController < ApplicationController
     # Iterate through each configured extension
     @form[:extensions].each do |ext, config|
       # New Instance of the FormExtension class
-      extension = ("Form#{ext.to_s.capitalize}".constantize).new(@form, @page)
+      extension = ("Form#{ext.to_s.classify}".constantize).new(@form, @page)
       
       # Result of the extension create method gets merged
       @results.merge!({ ext.to_sym => extension.create }) # merges this extensions results
+      sessions.merge!(@results.session)
     end
     # Those results are merged into the response object
     @response.result = @response.result.merge!({ :results => @results})

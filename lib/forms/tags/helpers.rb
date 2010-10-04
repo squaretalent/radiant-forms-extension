@@ -5,7 +5,8 @@ module Forms
       class << self
         
         def render(tag)
-          string =  %(<form enctype="multipart/form-data" #{attributes(tag)}>\n)
+          string =  %(<form enctype="multipart/form-data" method="post" #{attributes(tag)}>\n)
+            string << %(<input type="hidden" name="_method" value="#{tag.attr['method']}"/>\n)
             string << %(<input type="hidden" name="page_id" value="#{tag.locals.page.id}" />\n)
             string << %(<input type="hidden" name="form_id" value="#{tag.locals.form.id.to_s}" />\n)
             string << "<r:form>"
@@ -24,7 +25,6 @@ module Forms
             'class'         => tag.attr['type'],
             'name'          => nil,
             'for'           => nil,
-            'method'        => nil,
             'action'        => nil,
             'placeholder'   => nil,
             'value'         => nil,

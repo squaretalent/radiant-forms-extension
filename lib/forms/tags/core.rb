@@ -17,7 +17,7 @@ module Forms
         if tag.attr['name'].present?
           if tag.locals.form = Form.find_by_title(tag.attr['name'])
             tag.attr['id'] ||= 'form_' + tag.locals.form.title
-            tag.attr['method'] ||= 'post'
+            tag.attr['method'] ||= 'put'
             tag.attr['action'] ||= tag.locals.form.action.blank? ? "/forms/#{tag.locals.form.id}" : tag.locals.form.action
             
             parse(Forms::Tags::Helpers.render(tag))
