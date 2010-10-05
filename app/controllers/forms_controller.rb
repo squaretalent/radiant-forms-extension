@@ -29,11 +29,14 @@ class FormsController < ApplicationController
     # Iterate through each configured extension
     @form[:extensions].each do |ext, config|
       # New Instance of the FormExtension class
-      extension = ("Form#{ext.to_s.classify}".constantize).new(@form, @page)
+      extension = ("Form#{ext.to_s.pluralize.classify}".constantize).new(@form, @page) 
+      # .pluralize.classify means singulars like business and address are converted correctly
       
       # Result of the extension create method gets merged
-      @results.merge!({ ext.to_sym => extension.create }) # merges this extensions results
-      sessions.merge!(@results.session)
+      result = extension.create
+      
+      @results.merge!({ ext.to_sym => result }) # merges this extensions results
+      session.merge!(result[:session]) if result[:session].present?
     end
     # Those results are merged into the response object
     @response.result = @response.result.merge!({ :results => @results})

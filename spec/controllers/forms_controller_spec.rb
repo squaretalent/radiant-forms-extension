@@ -9,8 +9,8 @@ describe FormsController do
       @page = pages(:home)
       @form = forms(:test)
       @params = {
-        'form_id' => @form.id,
-        'data'    => 'test'
+        'id'    => @form.id,
+        'data'  => 'test'
       }
       mock(Page).find(anything) { @page }
       mock(Form).find(anything) { @form }
@@ -19,7 +19,7 @@ describe FormsController do
     context 'initialize' do
       
       before :each do
-        post :create, @params
+        put :update, @params
       end
         
       it 'should assign the page' do
@@ -47,7 +47,7 @@ describe FormsController do
     context 'configuration' do
 
       before :each do
-        post :create, @params
+        put :update, @params
       end
       
       context 'configuration exists' do
@@ -75,7 +75,7 @@ describe FormsController do
     context 'extensions' do
       
       before :each do
-        post :create, @params
+        put :update, @params
       end
           
       context 'extension configured' do
@@ -104,7 +104,7 @@ describe FormsController do
           
           before :each do
             @form.redirect_to = '/redirect/url'
-            post :create, @params
+            put :update, @params
           end
           
           it 'should redirect to the form redirect url' do
@@ -117,7 +117,7 @@ describe FormsController do
           
           before :each do
             @page.slug = '/page/url'
-            post :create, @params
+            put :update, @params
           end
           
           it 'should render page url' do
@@ -132,7 +132,7 @@ describe FormsController do
         
         before :each do
           stub(@response).save { false }
-          post :create, @params
+          put :update, @params
         end
         
         it 'should raise a form not submitted exception' do

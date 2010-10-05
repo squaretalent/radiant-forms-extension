@@ -14,12 +14,11 @@ describe Forms::Tags do
       it 'should render the correct HTML' do
         tag = %{<r:form name="#{@form.title}" />}
 
-        expected = %{<form enctype="multipart/form-data" name="#{@form.title}" method="post" action="/forms/#{@form.id}" id="form_test_form">
+        expected = %{<form enctype="multipart/form-data" method="post" name="#{@form.title}" action="/forms/#{@form.id}" id="form_test_form">
+<input type="hidden" name="_method" value="put" />
 <input type="hidden" name="page_id" value="#{@page.id}" />
-<input type="hidden" name="form_id" value="#{@form.id}" />
 <input type="text" value="" name="request[test]" class="text" id="request_test" /></form>}
-
-        @page.should render(tag).as(expected)
+       @page.should render(tag).as(expected)
       end
     end
     
