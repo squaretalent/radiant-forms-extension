@@ -233,6 +233,6 @@ A showcase of how to use addons, allows you to send emails directly from the pag
 
     mailchimp:
       action: unsubscribe
-      list_id: 2d4dd073ac
+      list_id: 2dxxxx99ac
       field:
         email: contact[email]
