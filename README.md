@@ -41,7 +41,7 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
     <ol>
       <li>
         <r:label for='contact[name]'>
-          <span class='title'>Your Name</span>
+          <span class='title'>Your name</span>
           <r:text name='contact[name]' />
         </r:label>
       </li>
@@ -52,15 +52,31 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
         </r:label>
       </li>
       <li>
-        <r:submit value='Send My Name' />
+        <r:label for='contact[subject]'>
+          <span class='title'>Your subject</span>
+          <r:text name='contact[subject]' />
+        </r:label>
+      </li>
+      <li>
+        <r:label for='contact[message]'>
+          <span class='title'>Your message</span>
+          <r:text name='contact[message]' />
+        </r:label>
+      </li>
+      <li>
+        <r:submit value='Send my message' />
       </li>
     </ol>
     
 ### Content
     
-    <h2>Contact from <r:get name='contact[name]' /></h2>
-    
-    <p>You can get back to them on <r:get name='contact[email]' /></p>
+    <h2>Contact from <r:form:read name='contact[name]' /></h2>
+
+    <p>The message:</p>
+
+    <p><r:form:read name='contact[message]' /></p>
+
+    <p>You can get back to them on <r:form:read name='contact[email]' /></p>
     
     <p>Cheers, <br /> <strong>Cool Mailer</strong></p>
     
@@ -69,23 +85,26 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
   *assuming you have forms_mail installed as well*
     
     mail:
-      field:
-        from: contact[email]
-      recipients: info@company.com
+      to: info@company.com
+      sender: contact[email]
+      field:
+        from: contact[email]
+        subject: contact[subject]
+        reply_to: contact[email]
       
 ### Response
     
     <html>
       <head>Some Terribly Designed Radiant Page</head>
       <body>
-        <r:forms:response>
+        <r:response>
           
           <h2>Thank you for contacting us <r:get name='contact[name]' /></h2>
           
           <!-- We need to clear the response, sort of like flash data -->
           <r:clear />
           
-        </r:forms:response>
+        </r:response>
       </body>
     </html>
     
@@ -187,3 +206,33 @@ A showcase of how to use addons, allows you to send emails directly from the pag
       config.gem 'webrat',            :version => '0.7.1'
       config.gem 'rr',                :version => '0.10.11'
     end
+
+### Mailchimp
+
+    There is a simple mailchimp-addon included. For this you need the hominid-gem installed:
+
+    http://github.com/bgetting/hominid
+
+    Add your API-key and account-details to your Radiant::Config using this convention:
+
+    mailchimp.api_key
+    mailchimp.username
+    mailchimp.password
+
+    At least, create a subscription-form with a config similar to this one:
+
+    mailchimp:
+      action: subscribe
+      list_id: 2dxxxx99ac
+      field:
+        email: contact[email]
+        first_name: contact[fname]
+        last_name: contact[lname]
+
+    to unsubscribe use this config:
+
+    mailchimp:
+      action: unsubscribe
+      list_id: 2d4dd073ac
+      field:
+        email: contact[email]
