@@ -177,6 +177,17 @@ module Forms
       end
 
       desc %{
+        Renders content for the given form extension.
+
+        **Required**
+        * *environment* the name of the extension
+      }
+      tag 'form:if' do |tag|
+        Forms::Tags::Helpers.require!(tag,'form:if','environment')
+        tag.expand if tag.locals.page.environment == tag.attr['environment']
+      end
+
+      desc %{
         Clears the response object
 
         @<r:response:clear />@
@@ -209,7 +220,6 @@ module Forms
       }
       tag 'response:get' do |tag|
         Forms::Tags::Helpers.require!(tag,'response:get','name')
-
         result = Forms::Tags::Responses.retrieve(tag.locals.response.result, tag.attr['name']).to_s
       end
     end
