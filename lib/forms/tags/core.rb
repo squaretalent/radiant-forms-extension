@@ -184,7 +184,7 @@ module Forms
       }
       tag 'form:if' do |tag|
         Forms::Tags::Helpers.require!(tag,'form:if','environment')
-        tag.expand if tag.locals.page.environment == tag.attr['environment']
+        tag.expand if tag.locals.page.environment.to_s == tag.attr['environment']
       end
 
       desc %{
