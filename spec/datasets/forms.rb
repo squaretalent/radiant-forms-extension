@@ -19,9 +19,10 @@ class FormsDataset < Dataset::Base
       :title        => "test_form",
       :body         => "<r:text name='request[test]' />",
       :content      => "<r:form:read name='request[test]' />",
+      :secondary    => "<r:form:read name='request[test]' />",
       :config       => <<-CONFIG
 test:
-  config: test
+  extension: test
 CONFIG
     }
     create_record :form, :test, attributes

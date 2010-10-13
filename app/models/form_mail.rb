@@ -2,8 +2,6 @@ class FormMail
   include Forms::Models::Extension
   
   def create
-    @body   = @page.render_snippet(@form)
-    
     begin
       FormMailer.deliver_mail(
         :recipients     => recipients,
@@ -82,7 +80,14 @@ class FormMail
   end
   
   def body
-    @body || ''
+    # This parses the content of the form
+    @parser = Radius::Parser.new(PageContext.new(@page), :tag_prefix => 'r')
+    if @config[:body]
+      @body = @parser.parse(@form.send(@config[:body]))
+    else
+      @body = @parser.parse(@form.content)
+    end
+    @body
   end
   
   def cc

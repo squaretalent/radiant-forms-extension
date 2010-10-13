@@ -31,6 +31,10 @@ describe Form do
       @form.content.is_a?(String).should == true
     end
     
+    it 'should have an secondary string' do
+      @form.secondary.is_a?(String).should == true
+    end
+    
     it 'should have a config string' do
       @form.config.is_a?(String).should == true
     end

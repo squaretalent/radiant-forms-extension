@@ -29,14 +29,14 @@
             #form_body.page{'data-caption'=>'body'}
               = render '/admin/forms/filters'
               = form_form.text_area :body, :class => 'textarea large', :style => 'width: 100%'
+            #form_config.page{'data-caption'=>'config'}
+              = form_form.text_area :config, :class => 'textarea large', :style => 'width: 100%'
             #form_content.page{'data-caption'=>'content'}
               = render '/admin/forms/filters'
               = form_form.text_area :content, :class => 'textarea large', :style => 'width: 100%'
-            #form_config.page{'data-caption'=>'config'}
-              %p
-                %span.reference_links
-                  Available 
-              = form_form.text_area :config, :class => 'textarea large', :style => 'width: 100%'
+            #form_content.page{'data-caption'=>'secondary'}
+              = render '/admin/forms/filters'
+              = form_form.text_area :secondary, :class => 'textarea large', :style => 'width: 100%'
       
   .form_bottom          
     - render_region :form_bottom do |form_bottom|

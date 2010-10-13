@@ -3,14 +3,14 @@ module Forms
     module Extension
       def self.included(base)
         base.class_eval do 
-          def initialize(form, page)
+          def initialize(form, page, config)
             @form   = form
             @page   = page
             
             @data   = Forms::Config.deep_symbolize_keys(@page.data)
             
             # Sets the config to be the current environment config: checkout:
-            @config = @form[:extensions][self.class.to_s.underscore.gsub('form_', '').to_sym]
+            @config = config
           end
           
           def current_user

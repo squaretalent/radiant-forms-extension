@@ -5,13 +5,14 @@ class FormsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def update
-    @form = Form.find(params[:id])
-    
     @page = Page.find(params[:page_id]) rescue Page.first
     @page.data    = params 
     @page.request = OpenStruct.new({
       :session => session # Creating a pretend response object
     })
+    
+    @form = Form.find(params[:id])
+    @form.page = @page
     
     # We need a response object
     @response = find_or_create_response
@@ -27,15 +28,10 @@ class FormsController < ApplicationController
     
     @results =  {}
     # Iterate through each configured extension
-    @form[:extensions].each do |ext, config|
-      # New Instance of the FormExtension class
-      extension = ("Form#{ext.to_s.pluralize.classify}".constantize).new(@form, @page) 
-      # .pluralize.classify means singulars like business and address are converted correctly
+    @form[:extensions].each do |name, config|
+      result = @form.call_extension(name,config)
       
-      # Result of the extension create method gets merged
-      result = extension.create
-      
-      @results.merge!({ ext.to_sym => result }) # merges this extensions results
+      @results.merge!({ name.to_sym => result })
       session.merge!(result[:session]) if result[:session].present?
     end
     # Those results are merged into the response object
