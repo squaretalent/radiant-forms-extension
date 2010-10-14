@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require 'spec/spec_helper'
 
-describe Forms::Tags do
+describe Forms::Tags::Core do
   dataset :pages, :forms
   
   context 'form output' do

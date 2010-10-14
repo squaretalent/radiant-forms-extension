@@ -157,7 +157,23 @@ module Forms
       }
       tag 'form:read' do |tag|
         Forms::Tags::Helpers.require!(tag,'form:read','name')
-        data = Forms::Tags::Responses.retrieve(tag.locals.page.data, tag.attr['name'])
+        tag.locals.form_data ||= tag.locals.page.data
+        
+        tag.locals.form_data = Forms::Tags::Responses.retrieve(tag.locals.form_data, tag.attr['name'])
+        
+        tag.expand.present? ? tag.expand : tag.locals.form_data
+      end
+      
+      tag 'form:read:each' do |tag|
+        result = ''
+        
+        fields = tag.locals.form_data
+        fields.each do |index,data|
+          tag.locals.form_data = data
+          result << tag.expand
+        end
+        
+        result
       end
       
       desc %{
@@ -195,6 +211,40 @@ module Forms
         Forms::Tags::Helpers.require!(tag,'response:get','name')
         
         result = Forms::Tags::Responses.retrieve(tag.locals.response.result, tag.attr['name']).to_s
+      end
+      
+      desc %{
+        Renders the numeric index value of an arbitrary array name incrementing this
+        value after every call.
+        *Usage:* _The following would render '0012'
+        <pre><code><r:index [array="widgets"] /><r:index array="snippets" /><r:index [array="widgets"] /><r:index [array="widgets"] /></code></pre>
+      }
+      tag 'index' do |tag|
+        key = tag.attr['array'] ||= 'array'
+
+        if tag.globals.indexes.present? # If the global indexes array exists
+          if tag.globals.indexes[key].nil? # Set the value of that index to zero if not present
+            tag.globals.indexes[key] = 0
+          end
+        else
+          tag.globals.indexes = { key => 0 } # Create the indexes array and that index
+        end
+
+        index = tag.globals.indexes[key] # Store the current value for return
+        tag.globals.indexes[key] += 1 # Increment the index value on the global object
+
+        index # Return the stored index
+      end
+
+      desc %{
+        Resets the counter on an array
+        *Usage:* _The following with render '010'
+        <pre><code><r:index [array="widgets"] /><r:index [array="widgets"] /><r:reset [array="widgets"] /><r:index [array="widgets"] /></code></pre>
+      }
+      tag 'reset' do |tag|
+        key = tag.attr['array'] ||= 'array'
+        tag.globals.indexes[key] = 0
+        nil
       end
     end
   end
