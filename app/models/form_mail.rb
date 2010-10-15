@@ -12,7 +12,8 @@ class FormMail
         :cc             => cc,
         :headers        => headers,
         :content_type   => content_type,
-        :charset        => charset
+        :charset        => charset,
+        :config         => @config
       )
       @sent = true
     rescue Exception => exception
