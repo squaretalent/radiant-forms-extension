@@ -31,7 +31,7 @@ class FormsController < ApplicationController
     @form[:extensions].each do |name, config|
       result = @form.call_extension(name,config)
       
-      @results.merge!({ config[:extension].to_sym => result })
+      @results.merge!({ name.to_sym => result })
       session.merge!(result[:session]) if result[:session].present?
     end
     # Those results are merged into the response object

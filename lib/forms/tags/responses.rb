@@ -6,7 +6,6 @@ module Forms
         
         def current(tag, request)
           response = nil
-          
           if tag.locals.response.present?
             response = tag.locals.response
           elsif tag.locals.page.request.present?

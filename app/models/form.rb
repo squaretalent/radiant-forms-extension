@@ -18,12 +18,10 @@ class Form < ActiveRecord::Base
       klass     = "Form#{extension.to_s.pluralize.classify}".constantize
       # .pluralize.classify means singulars like business and address are converted correctly
       # Create a new instance of that extension
-      klass = (klass).new(self, page, config) 
+      klass = (klass).new(self, self.page, config) 
   
       # Result of the extension create method gets merged
       result = klass.create
-    else
-      raise %{#{self.title}: `#{name}` scenario has not been configured to use an extension.}
     end
   end
   
