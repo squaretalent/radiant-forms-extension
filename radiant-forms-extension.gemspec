@@ -43,6 +43,7 @@ Gem::Specification.new do |s|
      "db/migrate/003_rename_output_to_content.rb",
      "db/migrate/004_create_responses.rb",
      "db/migrate/20100929150423_change_to_updated_by_id.rb",
+     "db/migrate/20101012230144_add_another_content_field.rb",
      "forms_extension.rb",
      "lib/forms/config.rb",
      "lib/forms/controllers/application_controller.rb",
@@ -58,7 +59,7 @@ Gem::Specification.new do |s|
      "radiant-forms-extension.gemspec",
      "spec/controllers/forms_controller_spec.rb",
      "spec/datasets/forms.rb",
-     "spec/lib/forms/tags_spec.rb",
+     "spec/lib/forms/tags/core_spec.rb",
      "spec/models/form_spec.rb",
      "spec/models/response_spec.rb",
      "spec/spec.opts",
@@ -72,7 +73,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/controllers/forms_controller_spec.rb",
      "spec/datasets/forms.rb",
-     "spec/lib/forms/tags_spec.rb",
+     "spec/lib/forms/tags/core_spec.rb",
      "spec/models/form_spec.rb",
      "spec/models/response_spec.rb",
      "spec/spec_helper.rb"
