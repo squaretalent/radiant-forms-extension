@@ -1,5 +1,9 @@
 # Radiant Forms Extension
 
+## BETA edition 
+
+Using this on master so that we can test the gem, this isn't recommended in production
+
 This extension allows a developer to create forms which can take on multiple tasks
 
 Using forms 'DRY's up the process of creating and reusing forms across a site (well I think so at least).
@@ -68,7 +72,8 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
   
   *assuming you have forms_mail installed as well*
     
-    mail:
+    cool_mailer:
+      extension: mail
       field:
         from: contact[email]
       recipients: info@company.com
@@ -106,7 +111,8 @@ Define your mailing variables
 
 _hardcoded_
 
-    mail:
+    cool_mailer:
+      extension: mail
       from: email@email.com
       to: email@email.com
       reply_to: email@email.com      
@@ -114,7 +120,8 @@ _hardcoded_
       
 _variable_
       
-    mail:
+    cool_mailer: 
+      extension: mail
       field:
         from: person[email]
         to: person[email]
@@ -164,9 +171,10 @@ A showcase of how to use addons, allows you to send emails directly from the pag
 
     end
 
-  Any form configured with a **blah** block will know to call this controllers create method
+  Any form configured with a block containing a **blah** extension key will know to call this models create method
 
-    blah:
+    cool_mailer:
+      extension: blah
       key: value
       another: value
       
