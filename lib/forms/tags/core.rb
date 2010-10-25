@@ -176,17 +176,6 @@ module Forms
         result
       end
       
-      desc %{
-        Clears the response object
-        
-        @<r:response:clear />@
-      }
-      tag 'response:clear' do |tag|
-        Forms::Tags::Responses.clear(tag)
-        
-        nil
-      end
-      
       desc %{ 
         Allows access to the response of a submitted form
         @<r:response>...<r:get /><r:clear />...</r:response>@
@@ -197,6 +186,59 @@ module Forms
         tag.locals.response = Forms::Tags::Responses.current(tag,request)
         
         tag.expand if tag.locals.response.present? and tag.locals.response.result.present?
+      end
+      
+      desc %{
+        Clears the response object
+        
+        @<r:response:clear />@
+      }
+      tag 'response:clear' do |tag|
+        Forms::Tags::Responses.clear(tag)
+        
+        nil
+      end
+
+      desc %{ Expand if there is a response to a specified for value }
+      tag 'response:if_results' do |tag|
+        extension = tag.attr['extension'].to_sym
+        tag.locals.response_extension = tag.locals.response.result[:results][extension]
+        
+        tag.expand if tag.locals.response_extension.present?
+      end
+      
+      desc %{ Expand if there is a response to a specified for value }
+      tag 'response:unless_results' do |tag|
+        extension = tag.attr['extension'].to_sym
+        tag.locals.response_extension = tag.locals.response.result[:results][extension]
+        
+        tag.expand unless tag.locals.response_extension.present?
+      end
+      
+      desc %{ Expand if there is a positive response to a specified for value of an extension
+        
+        <pre>
+          <r:response:if_get extension='bogus_gateway' value='checkout'>yay</r:response:if_get>
+        </pre>
+      }
+      tag 'response:if_get' do |tag|
+        query = tag.attr['name'].to_sym
+        result = tag.locals.response_extension[query]
+        
+        tag.expand if result.present? and result === true
+      end
+      
+      desc %{ Expand if there is a negative response to a specified for value of an extension
+        
+        <pre>
+          <r:response:unless_get extension='bogus_gateway' value='checkout'>no</r:response:unless_get>
+        </pre>
+      }
+      tag 'response:unless_get' do |tag|
+        query = tag.attr['name'].to_sym
+        result = tag.locals.response_extension[query]
+        
+        tag.expand if !result.present? or result != true
       end
       
       desc %{ 
@@ -246,6 +288,7 @@ module Forms
         tag.globals.indexes[key] = 0
         nil
       end
+      
     end
   end
 end

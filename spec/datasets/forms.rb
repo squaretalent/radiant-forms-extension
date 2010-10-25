@@ -28,4 +28,15 @@ CONFIG
     create_record :form, :test, attributes
   end
   
+  helpers do
+    def mock_response
+      @response = OpenStruct.new({
+        :result => {
+          :results => {}
+        }
+      })
+      mock(Forms::Tags::Responses).current(anything,anything) { @response }
+    end
+  end
+  
 end
