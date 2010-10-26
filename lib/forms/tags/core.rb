@@ -190,14 +190,14 @@ module Forms
         Expands if a response object exists in the user session
       }
       tag 'response:if_response' do |tag|
-        tag.expand if tag.locals.response.present? and tag.locals.response.results.present?
+        tag.expand if tag.locals.response.present? and tag.locals.response.result[:results].present?
       end
       
       desc %{ 
         Expands unless a response object exists in the user session
       }
       tag 'response:unless_response' do |tag|
-        tag.expand if tag.locals.response.blank? or tag.locals.response.results.blank?
+        tag.expand if tag.locals.response.blank? or tag.locals.response.result[:results].blank?
       end
       
       desc %{

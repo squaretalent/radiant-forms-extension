@@ -155,6 +155,66 @@ describe Forms::Tags::Core do
         @page = pages(:home)
         mock_response
       end
+      
+      describe 'if_response' do
+        context 'response and result exist' do
+          it 'should render' do
+            @response.result[:results] = { :bogus => { :payment => true } }
+            
+            tag = %{<r:response:if_response>success</r:response:if_response>}
+            exp = %{success}
+            @page.should render(tag).as(exp)
+          end
+        end
+        context 'result does not exist' do
+          it 'should not render' do
+            @response.result[:results] = nil
+            
+            tag = %{<r:response:if_response>failure</r:response:if_response>}
+            exp = %{}
+            @page.should render(tag).as(exp)
+          end
+        end
+        context 'response does not exist' do
+          it 'should not render' do
+            @response = nil
+            
+            tag = %{<r:response:if_response>failure</r:response:if_response>}
+            exp = %{}
+            @page.should render(tag).as(exp)
+          end
+        end
+      end
+      
+      describe 'unless_response' do
+        context 'response and result exist' do
+          it 'should not render' do
+            @response.result[:results] = { :bogus => { :payment => true } }
+            
+            tag = %{<r:response:unless_response>failure</r:response:unless_response>}
+            exp = %{}
+            @page.should render(tag).as(exp)
+          end
+        end
+        context 'result does not exist' do
+          it 'should not render' do
+            @response.result[:results] = nil
+            
+            tag = %{<r:response:unless_response>success</r:response:unless_response>}
+            exp = %{success}
+            @page.should render(tag).as(exp)
+          end
+        end
+        context 'response does not exist' do
+          it 'should not render' do
+            @response = nil
+            
+            tag = %{<r:response:unless_response>success</r:response:unless_response>}
+            exp = %{success}
+            @page.should render(tag).as(exp)
+          end
+        end
+      end
 
       describe 'if_results' do
         context 'extension sent results' do
