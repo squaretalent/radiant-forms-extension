@@ -1,5 +1,5 @@
 class FormsExtension < Radiant::Extension
-  version     '3.2.3'
+  version     '3.2.4'
   description 'Radiant Form extension. Site wide, useful form management'
   url         'http://github.com/squaretalent/radiant-forms-extension'
   
