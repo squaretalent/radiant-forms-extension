@@ -3,6 +3,22 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe FormsController do
   dataset :pages, :forms
   
+  context '#new' do
+    
+    it 'should redirect to :back' do
+      request.env['HTTP_REFERER'] = '/back'
+      @object = Object.new
+      stub(@object).result = { :some => 'array'}
+
+      mock(controller).find_or_create_response { @object }
+      mock(@object).update_attribute(:result, nil)
+
+      get :new
+      
+      response.should redirect_to("/back")
+    end
+  end
+  
   context '#create' do
     
     before :each do

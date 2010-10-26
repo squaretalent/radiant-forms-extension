@@ -179,13 +179,25 @@ module Forms
       desc %{ 
         Allows access to the response of a submitted form
         @<r:response>...<r:get /><r:clear />...</r:response>@
-        
-        _Will not expand if a form has not been submitted or has been cleared_
       }
       tag 'response' do |tag|
         tag.locals.response = Forms::Tags::Responses.current(tag,request)
         
-        tag.expand if tag.locals.response.present? and tag.locals.response.result.present?
+        tag.expand
+      end
+      
+      desc %{ 
+        Expands if a response object exists in the user session
+      }
+      tag 'response:if_response' do |tag|
+        tag.expand if tag.locals.response.present? and tag.locals.response.results.present?
+      end
+      
+      desc %{ 
+        Expands unless a response object exists in the user session
+      }
+      tag 'response:unless_response' do |tag|
+        tag.expand if tag.locals.response.blank? or tag.locals.response.results.blank?
       end
       
       desc %{
@@ -194,58 +206,77 @@ module Forms
         @<r:response:clear />@
       }
       tag 'response:clear' do |tag|
-        Forms::Tags::Responses.clear(tag)
+        if tag.locals.response.present? and tag.locals.response.result.present?
+          Forms::Tags::Responses.clear(tag)
+        end
         
-        nil
+        tag.expand
       end
 
       desc %{ Expand if there is a response to a specified for value }
       tag 'response:if_results' do |tag|
         extension = tag.attr['extension'].to_sym
-        tag.locals.response_extension = tag.locals.response.result[:results][extension]
-        
-        tag.expand if tag.locals.response_extension.present?
+        if tag.locals.response.result.present?
+          tag.locals.response_extension = tag.locals.response.result[:results][extension]
+          
+          if tag.locals.response_extension.present?
+            tag.expand
+          end
+        end
       end
       
       desc %{ Expand if there is a response to a specified for value }
       tag 'response:unless_results' do |tag|
         extension = tag.attr['extension'].to_sym
-        tag.locals.response_extension = tag.locals.response.result[:results][extension]
         
-        tag.expand unless tag.locals.response_extension.present?
+        unless tag.locals.response.result.present?
+          tag.expand
+        else
+          tag.locals.response_extension = tag.locals.response.result[:results][extension]
+          
+          unless tag.locals.response_extension.present?
+            tag.expand
+          end
+        end
       end
       
       desc %{ Expand if there is a positive response to a specified for value of an extension
         
         <pre>
-          <r:response:if_get extension='bogus_gateway' value='checkout'>yay</r:response:if_get>
+          <r:response:if_get extension='bogus_gateway' name='checkout'>yay</r:response:if_get>
         </pre>
       }
       tag 'response:if_get' do |tag|
-        query = tag.attr['name'].to_sym
-        result = tag.locals.response_extension[query]
+        if tag.locals.response_extension.present?
+          query = tag.attr['name'].to_sym
+          result = tag.locals.response_extension[query]
         
-        tag.expand if result.present? and result === true
+          tag.expand if result.present? and result === true
+        end
       end
       
       desc %{ Expand if there is a negative response to a specified for value of an extension
         
         <pre>
-          <r:response:unless_get extension='bogus_gateway' value='checkout'>no</r:response:unless_get>
+          <r:response:unless_get extension='bogus_gateway' name='checkout'>no</r:response:unless_get>
         </pre>
       }
       tag 'response:unless_get' do |tag|
-        query = tag.attr['name'].to_sym
-        result = tag.locals.response_extension[query]
+        if tag.locals.response_extension.present?
+          query = tag.attr['name'].to_sym
+          result = tag.locals.response_extension[query]
         
-        tag.expand if !result.present? or result != true
+          tag.expand if !result.present? or result != true
+        else
+          tag.expand
+        end
       end
       
       desc %{ 
         Access the attributes of a submitted form.
         
         @<r:response:get name="object[value]" />@ an object which was submitted with the form
-        @<r:response:get name="result[mail][value]" />@ a response to the mail extension hooking the form
+        @<r:response:get name="results[mail][value]" />@ a response to the mail extension hooking the form
         
         _Refer to the readme on extensions to find out what they return_
       }

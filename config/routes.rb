@@ -4,6 +4,6 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :forms
   end
   
-  map.resources :forms, :only => [ :update ]
+  map.resources :forms, :only => [ :new, :update ]
   
 end

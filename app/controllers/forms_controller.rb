@@ -4,10 +4,18 @@ class FormsController < ApplicationController
   
   skip_before_filter :verify_authenticity_token
 
+  def new
+    @response = find_or_create_response
+    @response.update_attribute(:result, nil)
+    
+    redirect_to :back
+  end
+
   def update
     @page = Page.find(params[:page_id]) rescue Page.first
     @page.data    = params 
     @page.request = OpenStruct.new({
+      :referrer => request.referer,
       :session => session # Creating a pretend response object
     })
     

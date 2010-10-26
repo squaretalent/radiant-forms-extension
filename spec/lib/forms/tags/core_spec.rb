@@ -26,6 +26,8 @@ describe Forms::Tags::Core do
         'form:read:each',
         
         'response',
+        'response:if_response',
+        'response:unless_response',
         'response:clear',
         'response:get',
         'response:if_results', 
@@ -174,6 +176,15 @@ describe Forms::Tags::Core do
       end
 
       describe 'unless_results' do
+        context 'response result does not exist' do
+          it 'should render' do
+            @response.result = nil
+
+            tag = %{<r:response:unless_results extension='bogus'>success</r:response:unless_results>}
+            exp = %{success}
+            @page.should render(tag).as(exp)
+          end
+        end
         context 'extension did not send results' do
           it 'should render' do
             tag = %{<r:response:unless_results extension='bogus'>success</r:response:unless_results>}
@@ -190,6 +201,7 @@ describe Forms::Tags::Core do
             @page.should render(tag).as(exp)
           end
         end
+        
       end
 
       describe 'if_get' do
