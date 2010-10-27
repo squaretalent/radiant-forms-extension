@@ -168,7 +168,7 @@ describe Forms::Tags::Core do
         end
         context 'result does not exist' do
           it 'should not render' do
-            @response.result[:results] = nil
+            @response.result = nil
             
             tag = %{<r:response:if_response>failure</r:response:if_response>}
             exp = %{}
@@ -198,7 +198,7 @@ describe Forms::Tags::Core do
         end
         context 'result does not exist' do
           it 'should not render' do
-            @response.result[:results] = nil
+            @response.result = nil
             
             tag = %{<r:response:unless_response>success</r:response:unless_response>}
             exp = %{success}

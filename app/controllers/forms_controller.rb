@@ -8,7 +8,7 @@ class FormsController < ApplicationController
     @response = find_or_create_response
     @response.update_attribute(:result, nil)
     
-    redirect_to :back
+    redirect_to :back rescue redirect_to '/'
   end
 
   def update

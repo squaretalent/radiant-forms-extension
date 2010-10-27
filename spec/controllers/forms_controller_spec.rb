@@ -5,18 +5,42 @@ describe FormsController do
   
   context '#new' do
     
-    it 'should redirect to :back' do
-      request.env['HTTP_REFERER'] = '/back'
+    before :each do
       @object = Object.new
       stub(@object).result = { :some => 'array'}
 
       mock(controller).find_or_create_response { @object }
       mock(@object).update_attribute(:result, nil)
-
-      get :new
-      
-      response.should redirect_to("/back")
     end
+    
+    context 'referrer set' do
+      
+      before :each do
+        request.env['HTTP_REFERER'] = '/back'        
+      end
+      
+      it 'should redirect to :back' do
+        get :new
+        
+        response.should redirect_to("/back")
+      end
+      
+    end
+    
+    context 'no referrer set' do
+      
+      it 'should redirect to index' do
+        get :new
+        
+        response.should redirect_to('/')
+      end
+      
+    end
+    
+
+    
+    
+    
   end
   
   context '#create' do
