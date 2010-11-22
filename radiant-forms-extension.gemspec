@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{radiant-forms-extension}
-  s.version = "3.2.5"
+  s.version = "3.2.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["dirkkelly"]
@@ -53,6 +53,7 @@ Gem::Specification.new do |s|
     "lib/forms/tags/core.rb",
     "lib/forms/tags/helpers.rb",
     "lib/forms/tags/responses.rb",
+    "lib/radiant-forms-extension.rb",
     "lib/tasks/forms_extension_tasks.rake",
     "public/images/admin/extensions/form/form.png",
     "radiant-forms-extension.gemspec",
