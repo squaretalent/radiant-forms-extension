@@ -320,6 +320,10 @@ module Forms
         nil
       end
       
+      tag 'param' do |tag|
+        tag.locals.page.params[tag.attr['name']]
+      end
+      
     end
   end
 end
