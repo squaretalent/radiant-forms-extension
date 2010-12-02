@@ -1,5 +1,5 @@
 class FormsExtension < Radiant::Extension
-  version     '3.2.4'
+  version     YAML::load_file(File.join(File.dirname(__FILE__), 'VERSION'))
   description 'Radiant Form extension. Site wide, useful form management'
   url         'http://github.com/squaretalent/radiant-forms-extension'
   

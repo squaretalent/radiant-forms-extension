@@ -10,20 +10,14 @@ module Forms
           end
           
           def find_response
-            response = nil
-            
             begin
               response = Response.find(request.session[:form_response])
             rescue
               response = nil
             end
-                        
-            response
           end
           
           def find_or_create_response
-            response = nil
-            
             if find_response
               response = find_response
             else

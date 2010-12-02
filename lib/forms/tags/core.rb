@@ -242,31 +242,27 @@ module Forms
       
       desc %{ Expand if there is a positive response to a specified for value of an extension
         
-        <pre>
-          <r:response:if_get extension='bogus_gateway' name='checkout'>yay</r:response:if_get>
-        </pre>
+        @<r:response:if_get extension='bogus_gateway' name='checkout'>yay</r:response:if_get>@
       }
       tag 'response:if_get' do |tag|
         if tag.locals.response_extension.present?
           query = tag.attr['name'].to_sym
           result = tag.locals.response_extension[query]
         
-          tag.expand if result.present? and result === true
+          tag.expand if result
         end
       end
       
       desc %{ Expand if there is a negative response to a specified for value of an extension
         
-        <pre>
-          <r:response:unless_get extension='bogus_gateway' name='checkout'>no</r:response:unless_get>
-        </pre>
+        @<r:response:unless_get extension='bogus_gateway' name='checkout'>no</r:response:unless_get>@
       }
       tag 'response:unless_get' do |tag|
         if tag.locals.response_extension.present?
           query = tag.attr['name'].to_sym
           result = tag.locals.response_extension[query]
         
-          tag.expand if !result.present? or result != true
+          tag.expand unless result
         else
           tag.expand
         end
