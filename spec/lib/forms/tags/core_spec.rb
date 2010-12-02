@@ -25,6 +25,7 @@ describe Forms::Tags::Core do
         'form:read',
         'form:read:each',
         
+        'param',
         'response',
         'response:if_response',
         'response:unless_response',
@@ -143,6 +144,21 @@ describe Forms::Tags::Core do
         
       end
       
+    end
+    
+  end
+  
+  context 'param' do
+    
+    before :each do 
+      @page = pages(:home)
+      stub(@page).params { { 'test' => 'param'} }
+    end
+    
+    it 'should return the requested param' do
+      tag = %{<r:param name='test' />}
+      exp = %{param}
+      @page.should render(tag).as(exp)
     end
     
   end
