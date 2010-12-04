@@ -62,9 +62,9 @@ Using forms 'DRY's up the process of creating and reusing forms across a site (w
     
 ### Content
     
-    <h2>Contact from <r:get name='contact[name]' /></h2>
+    <h2>Contact from <r:form:read name='contact[name]' /></h2>
     
-    <p>You can get back to them on <r:get name='contact[email]' /></p>
+    <p>You can get back to them on <r:form:read name='contact[email]' /></p>
     
     <p>Cheers, <br /> <strong>Cool Mailer</strong></p>
     
