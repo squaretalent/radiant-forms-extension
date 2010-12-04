@@ -46,7 +46,7 @@ module Forms
         %(<label #{Forms::Tags::Helpers.attributes(tag)}>#{tag.expand}</label>)
       end
       
-      %w(text password reset checkbox radio hidden file button).each do |type|
+      %w(text textarea password reset checkbox radio hidden file button).each do |type|
         desc %{
           Render a @<#{type}>...</#{type}>@ tag to be used in a form
           <pre><code><r:form:#{type} name="object[key]" /></code></pre>

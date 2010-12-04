@@ -11,6 +11,7 @@ describe Forms::Tags::Core do
         'form',
         'form:label',
         'form:text',
+        'form:textarea',
         'form:password',
         'form:reset',
         'form:checkbox',
@@ -77,7 +78,7 @@ describe Forms::Tags::Core do
       
     end
 
-    %w(text password reset checkbox radio hidden file button).each do |type|
+    %w(text textarea password reset checkbox radio hidden file button).each do |type|
 
       describe "<r:form:#{type}>" do      
         
