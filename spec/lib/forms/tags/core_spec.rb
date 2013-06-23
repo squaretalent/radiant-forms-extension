@@ -11,6 +11,7 @@ describe Forms::Tags::Core do
         'form',
         'form:label',
         'form:text',
+        'form:textarea',
         'form:password',
         'form:reset',
         'form:checkbox',
@@ -84,6 +85,25 @@ describe Forms::Tags::Core do
         it 'should render the correct HTML' do
           tag = %{<r:form:#{type} name="test[field]">text</r:form:#{type}>}
           expected = %{<input type="#{type}" value="" name="test[field]" class="#{type}" id="test_field" />}
+          @page.should render(tag).as(expected)
+        end
+        
+        it 'should require the name attribute' do
+          tag = %{<r:form:#{type} />}
+          @page.should_not render(tag)
+        end
+        
+      end
+      
+    end
+
+    %w(textarea).each do |type|
+
+      describe "<r:form:#{type}>" do      
+        
+        it 'should render the correct HTML' do
+          tag = %{<r:form:#{type} name="test[field]" />}
+          expected = %{<#{type} name="test[field]" class="#{type}" id="test_field"></#{type}>}
           @page.should render(tag).as(expected)
         end
         

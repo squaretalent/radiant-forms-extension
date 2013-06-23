@@ -68,6 +68,28 @@ module Forms
           %(<input type="#{type}" value="#{value}" #{Forms::Tags::Helpers.attributes(tag)} />)
         end
       end
+
+      %w(textarea).each do |type|
+        desc %{
+          Render a @<#{type}>...</#{type}>@ tag to be used in a form
+          <pre><code><r:form:#{type} name="object[key]" /></code></pre>
+          
+          **Required**
+          * *name* the name of the data to be sent
+          
+          **Optional**
+          * *class* css class names
+          * *placeholder* default text, which is cleared when clicked
+          * *maxlength* the maximum amount of characters
+        }
+        tag "form:#{type}" do |tag|
+          Forms::Tags::Helpers.require!(tag,"form:#{type}",'name')
+          
+          tag.attr['type'] = type
+          
+          %(<#{type} #{Forms::Tags::Helpers.attributes(tag)}>#{tag.expand}</#{type}>)
+        end
+      end
       
       desc %{
         Renders a @<select>...</select>@ tag to be used in a form
