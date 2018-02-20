@@ -1,6 +1,3 @@
-# Unmaintained.
+# Radiant Forms Extension
 
-Use [https://github.com/dirkkelly/radiant-forms-extension](https://github.com/dirkkelly/radiant-forms-extension).
-
-Cheers,
-:Dirk
+Unmaintained
